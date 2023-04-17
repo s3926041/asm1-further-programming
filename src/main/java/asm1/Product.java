@@ -10,6 +10,7 @@ public abstract class Product implements GiftProduct {
     private int quantity;
     private double price;
     private String message = null;
+    private TaxType taxType;
     private static HashMap<String,Product> allProduct = new HashMap<>();
     public Product(String name, String description, int quantity, double price) {
 
@@ -34,6 +35,9 @@ public abstract class Product implements GiftProduct {
 
     public double getPrice() {
         return price;
+    }
+    public TaxType getTaxType() {
+        return taxType;
     }
 
     public static HashMap<String,Product> getAllProduct() {

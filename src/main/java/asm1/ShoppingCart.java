@@ -3,24 +3,17 @@
  */
 package asm1;
 
-import java.util.TreeSet;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Set;
 
 public class ShoppingCart {
-    private Set<String> productNames;
-
-    public Set<String> getProductNames() {
-        return productNames;
-    }
-
+    private HashMap<String, Integer> cart;
+    private Coupon coupon = null;
     private static ArrayList<ShoppingCart> allCart = new ArrayList<>();
 
-
-
+    public HashMap<String, Integer> getCart() {
+        return cart;
+    }
     public static ArrayList<ShoppingCart> getAllCart() {
         return allCart;
     }
@@ -38,66 +31,67 @@ public class ShoppingCart {
     }
 
     public ShoppingCart() {
-        this.productNames = new TreeSet<>();
+        this.cart = new HashMap<>();
         this.cartOrder = allCart.size() + 1;
         allCart.add(this);
-
     }
 
-    public static void sortList(){
-        Comparator<ShoppingCart> ShoppingCartComparator = new Comparator<ShoppingCart>() {
-            @Override
-            public int compare(ShoppingCart p1, ShoppingCart p2) {
-              if(p1.getTotalWeight() > p2.getTotalWeight()) return 1;
-              return -1;
-            }
-          };
-        Collections.sort(allCart,ShoppingCartComparator);
-    }
-
-    public boolean addItem(String productName) {
-        if (this.productNames.contains(productName)) {
-            System.out.println(productName + " already in the cart.");
-            return false;
-        }
-
+    public boolean addItem(String productName, Integer quantity) {
+        //check existing product
         HashMap<String, Product> allProduct = Product.getAllProduct();
         if (!allProduct.containsKey(productName)) {
-            System.out.println("There is no product name " + productName);
             return false;
         }
+
+        //check quantity
         Product product = allProduct.get(productName);
-        if (product.getQuantity() == 0) {
-            System.out.println("This product is not available at the moment.");
+        if (product.getQuantity() - quantity < 0) {
             return false;
         }
-        product.setQuantity(product.getQuantity() - 1);
+
+        //update resources
+        if (this.cart.containsKey(productName)) {
+            this.cart.put(productName, cart.get(productName) + quantity);
+        } else
+            this.cart.put(productName, quantity);
+
+        product.setQuantity(product.getQuantity() - quantity);
+
+        //add weight
         if (product instanceof PhysicalProduct) {
-            totalWeight += ((PhysicalProduct) product).getWeight();
+            this.totalWeight += ((PhysicalProduct) product).getWeight() * quantity;
         }
-        this.productNames.add(productName);
-        System.out.println("Product added.");
         return true;
     }
 
-    public boolean removeItem(String productName) {
-        if (!productNames.contains(productName)) {
-            System.out.println(productName + "is not in the cart.");
+    public boolean removeItem(String productName, Integer quantity) {
+        if (!cart.containsKey(productName))
             return false;
+
+        if (quantity <= 0)
+            return false;
+
+        int newQuantity = this.cart.get(productName) - quantity;
+
+        if (newQuantity<0)
+            return false;
+
+        // Update product quantity of current cart
+        if (newQuantity == 0) {
+            this.cart.remove(productName);
+        } else {
+            this.cart.put(productName, newQuantity);
         }
 
-        HashMap<String, Product> allProduct = Product.getAllProduct();
-        if (!allProduct.containsKey(productName)) {
-            System.out.println("There is no product name " + productName);
-            return false;
-        }
+        // Change quantity in resources
+        HashMap <String,Product> allProduct = Product.getAllProduct();
         Product product = allProduct.get(productName);
-        product.setQuantity(product.getQuantity() + 1);
+        product.setQuantity(product.getQuantity() + quantity);
+
+        // Change weight of current cart
         if (product instanceof PhysicalProduct) {
-            totalWeight -= ((PhysicalProduct) product).getWeight();
+            this.totalWeight -= ((PhysicalProduct) product).getWeight() * quantity;
         }
-        this.productNames.remove(productName);
-        System.out.println(productName + "is removed from the cart.");
         return true;
     }
 
@@ -105,16 +99,38 @@ public class ShoppingCart {
         HashMap<String, Product> allProduct = Product.getAllProduct();
         Product product;
         double fee = 0;
-        for (String productName : productNames) {
+        for (String productName : cart.keySet()) {
             product = allProduct.get(productName);
             double weight = 0;
+            int quantity = cart.get(productName);
+
+            // shiping fee
             if (product instanceof PhysicalProduct) {
                 weight = ((PhysicalProduct) product).getWeight();
-                fee += 0.1 * weight;
+                fee += 0.1 * weight * quantity;
             }
-            fee += product.getPrice();
-        }
 
+            // discount check
+            double discount = 0;
+            if(!coupon.equals(null))
+            if (this.coupon.getTiedProduct().equals(product)) {
+                discount = coupon.discount() * quantity;
+            }
+
+            // sum
+            fee += product.getPrice() * (1 + product.getTaxType().getRate()) * quantity - discount;
+        }
         return fee;
+    }
+    public void addCoupon(Coupon coupon){
+        this.coupon  = coupon;
+    }
+
+    public void removeCoupon(){
+        this.coupon = null;
+    }
+
+    public double getTax(){
+        return 0;
     }
 }

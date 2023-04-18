@@ -11,13 +11,24 @@ public abstract class Product implements GiftProduct {
     private double price;
     private String message = null;
     private TaxType taxType;
+    private boolean isGift = false;
     private static HashMap<String,Product> allProduct = new HashMap<>();
-    public Product(String name, String description, int quantity, double price) {
+    public Product(String name, String description, int quantity, double price,TaxType taxType) {
 
         this.name = name;
         this.description = description;
         this.quantity = quantity;
         this.price = price;
+        this.taxType = taxType;
+        allProduct.put(name,this);
+    }
+    public Product(String name, String description, int quantity, double price,TaxType taxType,boolean isGift) {
+        this.name = name;
+        this.description = description;
+        this.quantity = quantity;
+        this.price = price;
+        this.taxType = taxType;
+        this.isGift = isGift;
         allProduct.put(name,this);
     }
 
@@ -66,7 +77,10 @@ public abstract class Product implements GiftProduct {
     public String toString() {
         return getType() + " - " + name;
     }
-
+    @Override
+    public boolean isGift(){
+        return this.isGift;
+    }
     @Override
     public void setMessage(String msg) {
         this.message = msg;

@@ -5,5 +5,6 @@ package asm1;
 
 public interface GiftProduct {
     void setMessage(String msg);
+    boolean isGift();
     String getMessage();
 }

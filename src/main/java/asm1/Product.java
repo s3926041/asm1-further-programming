@@ -10,7 +10,7 @@ public abstract class Product {
     private String description;
     private int quantity;
     private double price;
-    private String message = null;
+    private String message = "";
     private TaxType taxType;
     private boolean isGift = false;
     private static HashMap<String, Product> allProduct = new HashMap<>();

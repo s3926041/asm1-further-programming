@@ -14,6 +14,7 @@ public class ShoppingCart {
     public HashMap<String, Integer> getCart() {
         return cart;
     }
+
     public static ArrayList<ShoppingCart> getAllCart() {
         return allCart;
     }
@@ -37,19 +38,19 @@ public class ShoppingCart {
     }
 
     public boolean addItem(String productName, Integer quantity) {
-        //check existing product
+        // check existing product
         HashMap<String, Product> allProduct = Product.getAllProduct();
         if (!allProduct.containsKey(productName)) {
             return false;
         }
 
-        //check quantity
+        // check quantity
         Product product = allProduct.get(productName);
         if (product.getQuantity() - quantity < 0) {
             return false;
         }
 
-        //update resources
+        // update resources
         if (this.cart.containsKey(productName)) {
             this.cart.put(productName, cart.get(productName) + quantity);
         } else
@@ -57,7 +58,7 @@ public class ShoppingCart {
 
         product.setQuantity(product.getQuantity() - quantity);
 
-        //add weight
+        // add weight
         if (product instanceof PhysicalProduct) {
             this.totalWeight += ((PhysicalProduct) product).getWeight() * quantity;
         }
@@ -73,7 +74,7 @@ public class ShoppingCart {
 
         int newQuantity = this.cart.get(productName) - quantity;
 
-        if (newQuantity<0)
+        if (newQuantity < 0)
             return false;
 
         // Update product quantity of current cart
@@ -84,7 +85,7 @@ public class ShoppingCart {
         }
 
         // Change quantity in resources
-        HashMap <String,Product> allProduct = Product.getAllProduct();
+        HashMap<String, Product> allProduct = Product.getAllProduct();
         Product product = allProduct.get(productName);
         product.setQuantity(product.getQuantity() + quantity);
 
@@ -112,25 +113,29 @@ public class ShoppingCart {
 
             // discount check
             double discount = 0;
-            if(!coupon.equals(null))
-            if (this.coupon.getTiedProduct().equals(product)) {
-                discount = coupon.discount() * quantity;
-            }
+            if (!coupon.equals(null))
+                if (this.coupon.getTiedProduct().equals(product)) {
+                    discount = coupon.discount() * quantity;
+                }
 
             // sum
             fee += product.getPrice() * (1 + product.getTaxType().getRate()) * quantity - discount;
         }
         return fee;
     }
-    public void addCoupon(Coupon coupon){
-        this.coupon  = coupon;
+
+    public void addCoupon(Coupon coupon) {
+        if (cart.containsKey(coupon.getTiedProduct().getName()))
+            this.coupon = coupon;
+        else
+            System.out.println("No product using coupon");
     }
 
-    public void removeCoupon(){
+    public void removeCoupon() {
         this.coupon = null;
     }
 
-    public double getTax(){
+    public double getTax() {
         return 0;
     }
 }

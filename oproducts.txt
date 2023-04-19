@@ -1,0 +1,30 @@
+physicalproduct,Running shorts,A pair of comfortable and breathable running shorts,4,24.99,LUXURY_TAX,GIFT,Happy Birthday!,0.2
+physicalproduct,Water bottle,A durable and eco-friendly water bottle,8,19.99,NORMAL_TAX,NOTGIFT,,0.4
+digitalproduct,Netflix subscription,A 6-month subscription to Netflix,1,49.99,NORMAL_TAX,NOTGIFT,,
+digitalproduct,Online music lesson,A 1-hour online lesson with a professional musician,1,99.99,TAX_FREE,GIFT,Happy New Year!,
+physicalproduct,Blue Jeans,A pair of durable and fashionable jeans,2,59.99,LUXURY_TAX,NOTGIFT,,0.5
+digitalproduct,Spotify gift card,A $50 gift card for Spotify premium,1,50.0,TAX_FREE,GIFT,Merry Christmas!,
+digitalproduct,Online course,A 6-week course in digital marketing,1,299.99,LUXURY_TAX,GIFT,Happy Graduation!,
+physicalproduct,Headphones,A premium set of noise-cancelling headphones,2,149.99,NORMAL_TAX,GIFT,Happy Holidays!,0.3
+digitalproduct,Ebook,A bestselling novel in digital format,1,9.99,TAX_FREE,NOTGIFT,,
+physicalproduct,Running shoes,A pair of lightweight and comfortable running shoes,1,89.99,NORMAL_TAX,NOTGIFT,,0.6
+physicalproduct,Yoga mat,A high-quality yoga mat for home or studio use,3,29.99,TAX_FREE,GIFT,Happy Mother's Day!,1.0
+physicalproduct,Red T-shirt,A comfortable and stylish t-shirt,5,19.99,TAX_FREE,GIFT,Happy Birthday!,0.3
+physicalproduct,Phone case,A durable and stylish case for your phone,10,12.99,TAX_FREE,NOTGIFT,,0.0
+digitalproduct,Software license,A 1-year license for professional software,1,499.99,NORMAL_TAX,NOTGIFT,,
+physicalproduct,Smartwatch,A high-tech and stylish smartwatch,3,199.99,LUXURY_TAX,GIFT,Happy Anniversary!,0.2
+percentcoupon,Running shorts,"SPORTS15",15
+pricecoupon,Water bottle,"HYDRATE5",5.0
+percentcoupon,Netflix subscription,"NETFLIX10",10
+pricecoupon,Online music lesson,"MUSIC20",20.0
+percentcoupon,Blue Jeans,"JEANS20",20
+pricecoupon,Spotify gift card,"SPOTIFY10",10.0
+percentcoupon,Online course,"LEARN30",30
+pricecoupon,Headphones,"AUDIO25",25.0
+percentcoupon,Ebook,"READ15",15
+pricecoupon,Running shoes,"RUN35",35.0
+percentcoupon,Yoga mat,"YOGA25",25
+pricecoupon,Red T-shirt,"TSHIRT7",7.0
+percentcoupon,Phone case,"PHONE5",5
+pricecoupon,Software license,"CODE50",50.0
+percentcoupon,Smartwatch,"WATCH15",15

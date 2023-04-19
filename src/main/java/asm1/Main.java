@@ -4,8 +4,6 @@
  */
 package asm1;
 
-import java.util.*;
-
 public class Main {
     public static ShoppingCart cart = null;
 
@@ -18,11 +16,11 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        DataManipulate.read();
-        for(String i : Product.getAllProduct().keySet()){
-            System.out.println(i);
-        }
+        Data.read();
         
+        // USER INTERACTION
+        
+        Data.write();
     }
 
 }

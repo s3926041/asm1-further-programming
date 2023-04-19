@@ -1,16 +1,16 @@
 package asm1;
 
 public class PriceCoupon extends Coupon {
-    private  double value;
-    public PriceCoupon(Product tiedProduct, String stringValue,double value){
+    private  double price;
+    public PriceCoupon(Product tiedProduct, String stringValue,double price){
         super(tiedProduct,stringValue);
-        this.value = value;
+        this.price = price;
     }
-    public double getValue() {
-        return value;
+    public double getPrice() {
+        return price;
     }
     @Override
     public double discount(){
-        return super.getTiedProduct().getPrice() - this.value; 
+        return super.getTiedProduct().getPrice() - this.price; 
     }
 }

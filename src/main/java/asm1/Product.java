@@ -4,7 +4,8 @@
 package asm1;
 
 import java.util.HashMap;
-public abstract class Product implements GiftProduct {
+
+public abstract class Product {
     private String name;
     private String description;
     private int quantity;
@@ -12,24 +13,24 @@ public abstract class Product implements GiftProduct {
     private String message = null;
     private TaxType taxType;
     private boolean isGift = false;
-    private static HashMap<String,Product> allProduct = new HashMap<>();
-    public Product(String name, String description, int quantity, double price,TaxType taxType) {
+    private static HashMap<String, Product> allProduct = new HashMap<>();
 
+    public Product(String name, String description, int quantity, double price, TaxType taxType) {
+        this.taxType = taxType;
         this.name = name;
         this.description = description;
         this.quantity = quantity;
         this.price = price;
-        this.taxType = taxType;
-        allProduct.put(name,this);
+        allProduct.put(name, this);
     }
-    public Product(String name, String description, int quantity, double price,TaxType taxType,boolean isGift) {
+    public Product(String name, String description, int quantity, double price, TaxType taxType, boolean isGift) {
+        this.taxType = taxType;
         this.name = name;
         this.description = description;
         this.quantity = quantity;
         this.price = price;
-        this.taxType = taxType;
         this.isGift = isGift;
-        allProduct.put(name,this);
+        allProduct.put(name, this);
     }
 
     public String getName() {
@@ -47,11 +48,12 @@ public abstract class Product implements GiftProduct {
     public double getPrice() {
         return price;
     }
+
     public TaxType getTaxType() {
         return taxType;
     }
 
-    public static HashMap<String,Product> getAllProduct() {
+    public static HashMap<String, Product> getAllProduct() {
         return allProduct;
     }
 
@@ -77,16 +79,18 @@ public abstract class Product implements GiftProduct {
     public String toString() {
         return getType() + " - " + name;
     }
-    @Override
-    public boolean isGift(){
+
+    public boolean isGift() {
         return this.isGift;
     }
-    @Override
+
     public void setMessage(String msg) {
-        this.message = msg;
+        if (isGift)
+            this.message = msg;
     }
-    @Override
     public String getMessage() {
-        return this.message;
+        if (isGift)
+            return this.message;
+        return "";
     }
 }

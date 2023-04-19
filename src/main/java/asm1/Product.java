@@ -15,6 +15,10 @@ public abstract class Product {
     private boolean isGift = false;
     private static HashMap<String, Product> allProduct = new HashMap<>();
 
+    public static void setAllProduct(HashMap<String, Product> allProduct) {
+        Product.allProduct = allProduct;
+    }
+
     public Product(String name, String description, int quantity, double price, TaxType taxType) {
         this.taxType = taxType;
         this.name = name;
@@ -23,6 +27,7 @@ public abstract class Product {
         this.price = price;
         allProduct.put(name, this);
     }
+
     public Product(String name, String description, int quantity, double price, TaxType taxType, boolean isGift) {
         this.taxType = taxType;
         this.name = name;
@@ -88,6 +93,7 @@ public abstract class Product {
         if (isGift)
             this.message = msg;
     }
+
     public String getMessage() {
         if (isGift)
             return this.message;

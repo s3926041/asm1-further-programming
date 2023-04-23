@@ -17,7 +17,9 @@ public class Main {
 
     public static void main(String[] args) {
         Data.read();
-        
+        for(ShoppingCart s: ShoppingCart.getAllCart()){
+            System.out.println(s.getTotalWeight());
+        }
         // USER INTERACTION
  
         // Data.write();

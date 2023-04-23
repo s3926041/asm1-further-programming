@@ -1,4 +1,19 @@
 CART
-productname, message, 
-productname , 
-productname , 
+Running shorts,4,NOTGIFT,
+Water bottle,8,NOTGIFT,
+Netflix subscription,1,NOTGIFT,
+Online music lesson,1,NOTGIFT,
+Blue Jeans,2,NOTGIFT,
+CART
+Spotify gift card,1,NOTGIFT,
+Online course,1,NOTGIFT,
+Headphones,2,NOTGIFT,
+CART
+Ebook,1,NOTGIFT,
+Running shoes,1,NOTGIFT,
+Yoga mat,3,NOTGIFT,
+CART
+Red T-shirt,5,NOTGIFT,
+Phone case,10,NOTGIFT,
+Software license,1,NOTGIFT,
+Smartwatch,3,NOTGIFT,

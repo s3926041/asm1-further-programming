@@ -19,8 +19,8 @@ public class Main {
         Data.read();
         
         // USER INTERACTION
-        
-        Data.write();
+ 
+        // Data.write();
     }
 
 }

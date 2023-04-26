@@ -20,6 +20,7 @@ public class Main {
         for(ShoppingCart s: ShoppingCart.getAllCart()){
             System.out.println(s.getTotalWeight());
         }
+
         // USER INTERACTION
  
         // Data.write();

@@ -1,13 +1,11 @@
-/**
- * @author <Nguyen Thanh Hung - s3926041>
- */
 package asm1;
 
 public class PhysicalProduct extends Product {
+    private static TaxType taxType;
     private double weight;
 
-    public PhysicalProduct(String name, String description, int quantity, double price, double weight,TaxType taxType,boolean canBeGift) {
-        super(name, description, quantity, price,taxType,canBeGift);
+    public PhysicalProduct(String name, String description, int quantity, double price, double weight) {
+        super(name, description, quantity, price, taxType, canBeGift);
         this.weight = weight;
     }
     public double getWeight() {

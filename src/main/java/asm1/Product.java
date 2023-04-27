@@ -1,6 +1,3 @@
-/**
- * @author <Nguyen Thanh Hung - s3926041>
- */
 package asm1;
 
 import java.util.HashMap;
@@ -12,7 +9,7 @@ public abstract class Product {
     private double price;
     private TaxType taxType;
     private static HashMap<String, Product> allProduct = new HashMap<>();
-    private boolean canBeGift = false;
+    protected static boolean canBeGift = false;
     public static void setAllProduct(HashMap<String, Product> allProduct) {
         Product.allProduct = allProduct;
     }

@@ -1,8 +1,6 @@
-
-/**
- * @author <Nguyen Thanh Hung - s3926041>
- */
 package asm1;
+
+import java.util.*;
 
 public class Main {
     public static ShoppingCart cart = null;
@@ -16,7 +14,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        Data.read();
+        // Data.read();
         // for(ShoppingCart s: ShoppingCart.getAllCart()){
         //     for(String str : s.getCart().keySet()){
         //         System.out.println(s.getCart().get(str).getProduct() );
@@ -24,6 +22,126 @@ public class Main {
         //     }
         //     System.out.println("");
         // }
+
+
+        //User Interaction coding here
+        Scanner scanner = new Scanner(System.in);
+        while(true) {
+            System.out.println("Select an option from here:");
+            System.out.println("-----------------------------------------");
+            System.out.println("1. Create new products");
+            System.out.println("2. Edit products");
+            System.out.println("3. View products");
+            System.out.println("-----------------------------------------");
+            System.out.println("4. Add items to cart");
+            System.out.println("5. Remove items from cart");
+            System.out.println("-----------------------------------------");
+            System.out.println("6. Update/View Message 4 Gift Items");
+            System.out.println("-----------------------------------------");
+            System.out.println("7. Apply/Remove coupon");
+            System.out.println("-----------------------------------------");
+            System.out.println("8. View cart in detail");
+            System.out.println("9. Sorting for carts");
+            System.out.println("0. Exit");
+
+            int option = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (option) {
+                case 1:
+                    createProduct(scanner);
+                    break;
+                case 2:
+                    editProduct(scanner);
+            }
+        }
+    }
+
+    public static void createProduct(Scanner scanner) {
+        HashMap<String, Product> allProduct = Product.getAllProduct();
+        System.out.println("Enter product name:");
+        String name = scanner.nextLine();
+        if (allProduct.containsKey(name)) {
+            System.err.println("Product existed.");
+            return;
+        }
+
+        System.out.println("Enter product description:");
+        String description = scanner.nextLine();
+        scanner.nextLine();
+
+        System.out.println("Enter quantity available:");
+        int quantityAvailable = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.println("Enter price:");
+        double price = scanner.nextDouble();
+        scanner.nextLine();
+
+        System.out.println("Is this a physical product? (Y/N)");
+        String answer = scanner.nextLine();
+        
+        if (answer.equalsIgnoreCase("y")) {
+            System.out.println("Enter weight:");
+            double weight = scanner.nextDouble();
+            Product product = new PhysicalProduct(name, description, quantityAvailable, price, weight);
+
+        } else {
+            Product product = new DigitalProduct(name, description, quantityAvailable, price);
+
+        }
+        System.out.println("Product created.");
+    }
+
+    public static void editProduct(Scanner scanner) {
+        HashMap<String, Product> allProduct = Product.getAllProduct();
+        if (allProduct.isEmpty()) {
+            System.err.println("No product available.");
+            return;
+        }
+        System.out.println("All product:");
+        for (String s : allProduct.keySet()) {
+            System.out.println("-" + s);
+        }
+        System.out.println("");
+        System.out.println("Enter product name to edit:");
+        String name = scanner.nextLine();
+        if (allProduct.containsKey(name)) {
+            System.out.println("Select an option:");
+            System.out.println("1. Change description");
+            System.out.println("2. Change quantity");
+            System.out.println("3. Change price");
+            int option = scanner.nextInt();
+            scanner.nextLine();
+            switch (option) {
+                case 1:
+                    System.out.println("Enter new description: ");
+                    String newDescription = scanner.nextLine();
+                    if (newDescription.isEmpty()) {
+                        System.out.println("Invalid description");
+                        return;
+                    }
+                    allProduct.get(name).setDescription(newDescription);
+                    System.out.println("Description changed.");
+                    break;
+                case 2:
+                    System.out.println("Enter new quantity: ");
+                    int newQuantity = scanner.nextInt();
+                    allProduct.get(name).setQuantity(newQuantity);
+                    System.out.println("Quantity changed.");
+                    break;
+                case 3:
+                    System.out.println("Enter new price: ");
+                    double newPrice = scanner.nextDouble();
+                    allProduct.get(name).setPrice(newPrice);
+                    System.out.println("Price changed.");
+                    break;
+                default:
+                    System.out.println("Invalid option.");
+            }
+            return;
+        }
+        System.err.println("No product name " + name);
     }
 
 }

@@ -33,15 +33,16 @@ public class Main {
             System.out.println("2. Edit products");
             System.out.println("3. View products");
             System.out.println("-----------------------------------------");
-            System.out.println("4. Add items to cart");
-            System.out.println("5. Remove items from cart");
+            System.out.println("4. Create cart");
+            System.out.println("5. Add items to cart");
+            System.out.println("6. Remove items from cart");
             System.out.println("-----------------------------------------");
-            System.out.println("6. Update/View Message 4 Gift Items");
+            System.out.println("7. Update/View Message 4 Gift Items");
             System.out.println("-----------------------------------------");
-            System.out.println("7. Apply/Remove coupon");
+            System.out.println("8. Apply/Remove coupon");
             System.out.println("-----------------------------------------");
-            System.out.println("8. View cart in detail");
-            System.out.println("9. Sorting for carts");
+            System.out.println("9. View cart in detail");
+            System.out.println("10. Sorting for carts");
             System.out.println("0. Exit");
 
             int option = scanner.nextInt();
@@ -53,6 +54,12 @@ public class Main {
                     break;
                 case 2:
                     editProduct(scanner);
+                    break;
+                case 3:
+                    viewProduct(scanner);
+                    break;
+                case 4:
+
             }
         }
     }
@@ -144,4 +151,14 @@ public class Main {
         System.err.println("No product name " + name);
     }
 
+    public static void viewProduct(Scanner scanner) {
+        System.out.println("Enter a keyword to search for products:");
+        String name = scanner.nextLine();
+        HashMap<String, Product> allProduct = Product.getAllProduct();
+        if (allProduct.isEmpty()) {
+            System.err.println("No product available.");
+            return;
+        
+        }
+    }
 }

@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ShoppingCart {
-    private HashMap<String, Integer> cart;
+    private HashMap<String, ProductItem> cart;
     private Coupon coupon = null;
     private static ArrayList<ShoppingCart> allCart = new ArrayList<>();
 
-    public HashMap<String, Integer> getCart() {
+    public HashMap<String, ProductItem> getCart() {
         return cart;
     }
 
@@ -41,21 +41,27 @@ public class ShoppingCart {
         // check existing product
         HashMap<String, Product> allProduct = Product.getAllProduct();
         if (!allProduct.containsKey(productName)) {
+            // System.out.println("sai");
             return false;
         }
-
-        // check quantity
         Product product = allProduct.get(productName);
+        // check quantity
         if (product.getQuantity() - quantity < 0) {
+            // System.out.println(false);
             return false;
         }
-
+        ProductItem productItem;
+        if (product.canBeGift())
+            productItem = new GiftItem(product, quantity);
+        else
+            productItem = new ProductItem(product, quantity);
         // update resources
         if (this.cart.containsKey(productName)) {
-            this.cart.put(productName, cart.get(productName) + quantity);
+            productItem.setQuantity(productItem.getQuantity() + quantity);
         } else
-            this.cart.put(productName, quantity);
+            this.cart.put(productName, productItem);
 
+        // System.out.println(productItem.getProduct().getName());
         product.setQuantity(product.getQuantity() - quantity);
 
         // add weight
@@ -72,7 +78,7 @@ public class ShoppingCart {
         if (quantity <= 0)
             return false;
 
-        int newQuantity = this.cart.get(productName) - quantity;
+        int newQuantity = this.cart.get(productName).getQuantity() - quantity;
 
         if (newQuantity < 0)
             return false;
@@ -81,7 +87,7 @@ public class ShoppingCart {
         if (newQuantity == 0) {
             this.cart.remove(productName);
         } else {
-            this.cart.put(productName, newQuantity);
+            this.cart.get(productName).setQuantity(newQuantity);
         }
 
         // Change quantity in resources
@@ -103,7 +109,7 @@ public class ShoppingCart {
         for (String productName : cart.keySet()) {
             product = allProduct.get(productName);
             double weight = 0;
-            int quantity = cart.get(productName);
+            int quantity = cart.get(productName).getQuantity();
 
             // shiping fee
             if (product instanceof PhysicalProduct) {
@@ -113,11 +119,10 @@ public class ShoppingCart {
 
             // discount check
             double discount = 0;
-            if (!coupon.equals(null))
+            if (this.coupon !=null)
                 if (this.coupon.getTiedProduct().equals(product)) {
                     discount = coupon.discount() * quantity;
                 }
-
             // sum
             fee += product.getPrice() * (1 + product.getTaxType().getRate()) * quantity - discount;
         }

@@ -6,8 +6,8 @@ package asm1;
 public class PhysicalProduct extends Product {
     private double weight;
 
-    public PhysicalProduct(String name, String description, int quantity, double price, double weight,TaxType taxType,boolean isGift) {
-        super(name, description, quantity, price,taxType,isGift);
+    public PhysicalProduct(String name, String description, int quantity, double price, double weight,TaxType taxType,boolean canBeGift) {
+        super(name, description, quantity, price,taxType,canBeGift);
         this.weight = weight;
     }
     public double getWeight() {

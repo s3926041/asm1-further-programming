@@ -17,12 +17,13 @@ public class Main {
 
     public static void main(String[] args) {
         Data.read();
-        for(ShoppingCart s: ShoppingCart.getAllCart()){
-            System.out.println(s.getTotalWeight());
-        }
-        // USER INTERACTION
- 
-        // Data.write();
+        // for(ShoppingCart s: ShoppingCart.getAllCart()){
+        //     for(String str : s.getCart().keySet()){
+        //         System.out.println(s.getCart().get(str).getProduct() );
+        //         System.out.println(s.getCart().get(str).getQuantity());
+        //     }
+        //     System.out.println("");
+        // }
     }
 
 }

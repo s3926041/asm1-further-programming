@@ -10,31 +10,20 @@ public abstract class Product {
     private String description;
     private int quantity;
     private double price;
-    private String message = "";
     private TaxType taxType;
-    private boolean isGift = false;
     private static HashMap<String, Product> allProduct = new HashMap<>();
-
+    private boolean canBeGift = false;
     public static void setAllProduct(HashMap<String, Product> allProduct) {
         Product.allProduct = allProduct;
     }
 
-    public Product(String name, String description, int quantity, double price, TaxType taxType) {
+    public Product(String name, String description, int quantity, double price, TaxType taxType,boolean canBeGift) {
+        this.canBeGift = canBeGift;
         this.taxType = taxType;
         this.name = name;
         this.description = description;
         this.quantity = quantity;
         this.price = price;
-        allProduct.put(name, this);
-    }
-
-    public Product(String name, String description, int quantity, double price, TaxType taxType, boolean isGift) {
-        this.taxType = taxType;
-        this.name = name;
-        this.description = description;
-        this.quantity = quantity;
-        this.price = price;
-        this.isGift = isGift;
         allProduct.put(name, this);
     }
 
@@ -77,6 +66,12 @@ public abstract class Product {
     public void setPrice(double price) {
         this.price = price;
     }
+    public void setCanBeGift(boolean canBeGift) {
+        this.canBeGift = canBeGift;
+    }
+    public boolean canBeGift(){
+        return canBeGift;
+    }
 
     public abstract String getType();
 
@@ -85,18 +80,4 @@ public abstract class Product {
         return getType() + " - " + name;
     }
 
-    public boolean isGift() {
-        return this.isGift;
-    }
-
-    public void setMessage(String msg) {
-        if (isGift)
-            this.message = msg;
-    }
-
-    public String getMessage() {
-        if (isGift)
-            return this.message;
-        return "";
-    }
 }

@@ -13,12 +13,8 @@ Ebook,1,NOTGIFT,
 Running shoes,1,NOTGIFT,
 Yoga mat,3,NOTGIFT,
 CART
-Red T-shirt,5,GIFT, Happy BirthDay
-Phone case,10,GIFT, Happy New Year
-Software license,1,GIFT, Good luck on your job
-Smartwatch,3,NOTGIFT,
-CART
 Running shorts,4,NOTGIFT,
 Water bottle,8,NOTGIFT,
+CART
 Red T-shirt,5,GIFT, Happy BirthDay
 Phone case,10,GIFT, Happy New Year

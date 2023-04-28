@@ -67,6 +67,9 @@ public class Main {
                 case 6:
                     removeProduct(scanner);
                     break;
+                case 7:
+                    updateMess(scanner);
+                    break;
             }
         }
     }
@@ -193,5 +196,9 @@ public class Main {
         String name = scanner.nextLine();
         int quantity = scanner.nextInt();
         cart.removeItem(name, quantity);
+    }
+
+    public static void updateMess(Scanner scanner) {
+        
     }
 }

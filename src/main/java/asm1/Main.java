@@ -37,7 +37,7 @@ public class Main {
             System.out.println("5. Add items to cart");
             System.out.println("6. Remove items from cart");
             System.out.println("-----------------------------------------");
-            System.out.println("7. Update/View Message 4 Gift Items");
+            System.out.println("7. Update/View Message of Gift Items");
             System.out.println("-----------------------------------------");
             System.out.println("8. Apply/Remove coupon");
             System.out.println("-----------------------------------------");
@@ -59,12 +59,19 @@ public class Main {
                     viewProduct(scanner);
                     break;
                 case 4:
-
+                    createCart();
+                    break;
+                case 5:
+                    addProduct(scanner);
+                    break;
+                case 6:
+                    removeProduct(scanner);
+                    break;
             }
         }
     }
 
-    public static void createProduct(Scanner scanner) {
+    public static void createProduct(Scanner scanner, Object canBeGift) {
         HashMap<String, Product> allProduct = Product.getAllProduct();
         System.out.println("Enter product name:");
         String name = scanner.nextLine();
@@ -91,10 +98,10 @@ public class Main {
         if (answer.equalsIgnoreCase("y")) {
             System.out.println("Enter weight:");
             double weight = scanner.nextDouble();
-            Product product = new PhysicalProduct(name, description, quantityAvailable, price, weight);
+            Product product = new PhysicalProduct(name, description, quantityAvailable, price, weight, TaxType.valueOf("Normal_Tax"), canBeGift);
 
         } else {
-            Product product = new DigitalProduct(name, description, quantityAvailable, price);
+            Product product = new DigitalProduct(name, description, quantityAvailable, price, TaxType.valueOf("Normal_Tax"), canBeGift);
 
         }
         System.out.println("Product created.");
@@ -160,5 +167,30 @@ public class Main {
             return;
         
         }
+    }
+    public static void createCart() {
+        ShoppingCart cart = new ShoppingCart();
+        System.out.println("Cart "+cart.getCartOrder() + " created!");
+        setCart(cart);
+    }
+    public static void addProduct(Scanner scanner) {
+        if(cart == null){
+            System.out.println("Please create cart first!");
+            return;
+        }
+        System.out.println("Enter product name: ");
+        String name = scanner.nextLine();
+        int quantity = scanner.nextInt();
+        cart.addItem(name, quantity);   
+    }
+    public static void removeProduct(Scanner scanner) {
+        if(cart == null){
+            System.out.println("Please create cart first!");
+            return;
+        }
+        System.out.println("Enter product name: ");
+        String name = scanner.nextLine();
+        int quantity = scanner.nextInt();
+        cart.removeItem(name, quantity);
     }
 }

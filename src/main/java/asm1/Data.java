@@ -25,12 +25,9 @@ public class Data {
                     Product newProduct;
                     if (fields[0].equals("physicalproduct")) {
                         double weight = Double.parseDouble(fields[7].trim());
-                        newProduct = new PhysicalProduct(name, description, quantity, price, weight,
-                                TaxType.valueOf(taxType), canBeGift);
-
+                        newProduct = new PhysicalProduct(name, description, quantity, price, weight, TaxType.valueOf(taxType), canBeGift);
                     } else {
-                        newProduct = new DigitalProduct(name, description, quantity, price, TaxType.valueOf(taxType),
-                                canBeGift);
+                        newProduct = new DigitalProduct(name, description, quantity, price, TaxType.valueOf(taxType), canBeGift);
                     }
                 }
                 // coupon check

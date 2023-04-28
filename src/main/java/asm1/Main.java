@@ -211,6 +211,7 @@ public class Main {
         }
         System.out.println("Enter product name: ");
         String name = scanner.nextLine();
+        System.out.println("Enter product's quantity: ");
         int quantity = scanner.nextInt();
         cart.addItem(name, quantity);
     }
@@ -222,6 +223,7 @@ public class Main {
         }
         System.out.println("Enter product name: ");
         String name = scanner.nextLine();
+        System.out.println("Enter product's quantity: ");
         int quantity = scanner.nextInt();
         cart.removeItem(name, quantity);
     }

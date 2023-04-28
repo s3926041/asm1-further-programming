@@ -95,6 +95,7 @@ public class Main {
         System.out.println("Is this a physical product? (Y/N)");
         String answer = scanner.nextLine();
         
+        //THIEU PARAMETER ROI ONG OI THIEU TAX VS CANBEGIFT
         if (answer.equalsIgnoreCase("y")) {
             System.out.println("Enter weight:");
             double weight = scanner.nextDouble();

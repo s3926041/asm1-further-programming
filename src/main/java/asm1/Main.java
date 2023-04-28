@@ -16,17 +16,16 @@ public class Main {
     public static void main(String[] args) {
         // Data.read();
         // for(ShoppingCart s: ShoppingCart.getAllCart()){
-        //     for(String str : s.getCart().keySet()){
-        //         System.out.println(s.getCart().get(str).getProduct() );
-        //         System.out.println(s.getCart().get(str).getQuantity());
-        //     }
-        //     System.out.println("");
+        // for(String str : s.getCart().keySet()){
+        // System.out.println(s.getCart().get(str).getProduct() );
+        // System.out.println(s.getCart().get(str).getQuantity());
+        // }
+        // System.out.println("");
         // }
 
-
-        //User Interaction coding here
+        // User Interaction coding here
         Scanner scanner = new Scanner(System.in);
-        while(true) {
+        while (true) {
             System.out.println("Select an option from here:");
             System.out.println("-----------------------------------------");
             System.out.println("1. Create new products");
@@ -74,7 +73,7 @@ public class Main {
         }
     }
 
-    public static void createProduct(Scanner scanner, Object canBeGift) {
+    public static void createProduct(Scanner scanner) {
         HashMap<String, Product> allProduct = Product.getAllProduct();
         System.out.println("Enter product name:");
         String name = scanner.nextLine();
@@ -95,17 +94,43 @@ public class Main {
         double price = scanner.nextDouble();
         scanner.nextLine();
 
-        System.out.println("Is this a physical product? (Y/N)");
+        System.out.println("Choose taxType\n1. TAX_FREE\n2. NORMAL_TAX 3.LUXURY_TAX");
+        int option = scanner.nextInt();
+        String taxString = "";
+        switch (option) {
+            case 1:
+                taxString = "TAX_FREE";
+                break;
+            case 2:
+                taxString = "NORMAL_TAX";
+                break;
+            case 3:
+                taxString = "LUXURY_TAX";
+                break;
+            default:
+                taxString = "TAX_FREE";
+                break;
+
+        }
+        System.out.println("Is this product can be used as GIFT? (Y/N)");
+        boolean canBeGift = false;
         String answer = scanner.nextLine();
-        
-        //THIEU PARAMETER ROI ONG OI THIEU TAX VS CANBEGIFT
+        if (answer.equalsIgnoreCase("y")) {
+            canBeGift = true;
+        }
+        System.out.println("Is this a physical product? (Y/N)");
+        answer = scanner.nextLine();
+
+        Product product;
         if (answer.equalsIgnoreCase("y")) {
             System.out.println("Enter weight:");
             double weight = scanner.nextDouble();
-            Product product = new PhysicalProduct(name, description, quantityAvailable, price, weight, TaxType.valueOf("Normal_Tax"), canBeGift);
+            product = new PhysicalProduct(name, description, quantityAvailable, price, weight,
+                    TaxType.valueOf(taxString), canBeGift);
 
         } else {
-            Product product = new DigitalProduct(name, description, quantityAvailable, price, TaxType.valueOf("Normal_Tax"), canBeGift);
+            product = new DigitalProduct(name, description, quantityAvailable, price,
+                    TaxType.valueOf(taxString), canBeGift);
 
         }
         System.out.println("Product created.");
@@ -169,26 +194,29 @@ public class Main {
         if (allProduct.isEmpty()) {
             System.err.println("No product available.");
             return;
-        
+
         }
     }
+
     public static void createCart() {
         ShoppingCart cart = new ShoppingCart();
-        System.out.println("Cart "+cart.getCartOrder() + " created!");
+        System.out.println("Cart " + cart.getCartOrder() + " created!");
         setCart(cart);
     }
+
     public static void addProduct(Scanner scanner) {
-        if(cart == null){
+        if (cart == null) {
             System.out.println("Please create cart first!");
             return;
         }
         System.out.println("Enter product name: ");
         String name = scanner.nextLine();
         int quantity = scanner.nextInt();
-        cart.addItem(name, quantity);   
+        cart.addItem(name, quantity);
     }
+
     public static void removeProduct(Scanner scanner) {
-        if(cart == null){
+        if (cart == null) {
             System.out.println("Please create cart first!");
             return;
         }
@@ -199,6 +227,6 @@ public class Main {
     }
 
     public static void updateMess(Scanner scanner) {
-        
+
     }
 }

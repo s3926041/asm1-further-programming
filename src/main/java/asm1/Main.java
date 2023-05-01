@@ -1,5 +1,10 @@
 package asm1;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class Main {
@@ -38,7 +43,8 @@ public class Main {
             System.out.println("-----------------------------------------");
             System.out.println("7. Update/View Message of Gift Items");
             System.out.println("-----------------------------------------");
-            System.out.println("8. Apply/Remove coupon");
+            System.out.println("8. Apply coupon");
+            System.out.println("8. Remove coupon");
             System.out.println("-----------------------------------------");
             System.out.println("9. View cart in detail");
             System.out.println("10. Sorting for carts");
@@ -68,6 +74,9 @@ public class Main {
                     break;
                 case 7:
                     updateMess(scanner);
+                    break;
+                case 8:
+                    addCoupon(scanner);
                     break;
             }
         }
@@ -227,8 +236,47 @@ public class Main {
         int quantity = scanner.nextInt();
         cart.removeItem(name, quantity);
     }
-
+    
     public static void updateMess(Scanner scanner) {
-
+        System.out.println("Enter the name of the gift item:");
+        String itemName = scanner.nextLine();
+    
+        boolean itemFound = false;
+        try {
+            File cartFile = new File("carts.txt");
+            Scanner fileScanner = new Scanner(cartFile);
+    
+            StringBuilder fileContent = new StringBuilder();
+    
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                String[] parts = line.split(",", 3);
+    
+                if (parts[0].equals(itemName)) {
+                    itemFound = true;
+                    System.out.println("Enter the new message for " + itemName + ":");
+                    String newMessage = scanner.nextLine();
+                    parts[2] = newMessage;
+                    line = String.join(",", parts);
+                }
+    
+                fileContent.append(line + "\n");
+            }
+    
+            if (!itemFound) {
+                System.out.println("Gift item not found.");
+            } else {
+                FileWriter writer = new FileWriter("Cart.txt");
+                writer.write(fileContent.toString());
+                writer.close();
+                System.out.println("Gift item message updated successfully.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
+    public void addCoupon(Coupon coupon){
+        
+    }
+
 }

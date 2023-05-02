@@ -4,11 +4,15 @@
 package asm1;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 public class ShoppingCart {
     private HashMap<String, ProductItem> cart;
     private Coupon coupon = null;
+    public Coupon getCoupon() {
+        return coupon;
+    }
     private static ArrayList<ShoppingCart> allCart = new ArrayList<>();
 
     public HashMap<String, ProductItem> getCart() {
@@ -99,6 +103,7 @@ public class ShoppingCart {
         if (product instanceof PhysicalProduct) {
             this.totalWeight -= ((PhysicalProduct) product).getWeight() * quantity;
         }
+
         return true;
     }
 
@@ -119,7 +124,7 @@ public class ShoppingCart {
 
             // discount check
             double discount = 0;
-            if (this.coupon !=null)
+            if (this.coupon != null)
                 if (this.coupon.getTiedProduct().equals(product)) {
                     discount = coupon.discount() * quantity;
                 }
@@ -130,17 +135,30 @@ public class ShoppingCart {
     }
 
     public void addCoupon(Coupon coupon) {
-        if (cart.containsKey(coupon.getTiedProduct().getName()))
+        if (cart.containsKey(coupon.getTiedProduct().getName())) {
+
             this.coupon = coupon;
-        else
+            System.out.println("Coupon added");
+        } else
             System.out.println("No product using coupon");
     }
 
     public void removeCoupon() {
+        if (coupon != null)
+            System.out.println("Coupon removed");
+        else
+            System.out.println("No coupon applied");
+
         this.coupon = null;
     }
 
     public double getTax() {
         return 0;
+    }
+    
+}
+ class ShoppingCartWeightComparator implements Comparator<ShoppingCart> {
+    public int compare(ShoppingCart cart1, ShoppingCart cart2) {
+        return cart1.getTotalWeight() > cart2.getTotalWeight();
     }
 }

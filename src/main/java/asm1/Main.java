@@ -44,10 +44,10 @@ public class Main {
             System.out.println("7. Update/View Message of Gift Items");
             System.out.println("-----------------------------------------");
             System.out.println("8. Apply coupon");
-            System.out.println("8. Remove coupon");
+            System.out.println("9. Remove coupon");
             System.out.println("-----------------------------------------");
-            System.out.println("9. View cart in detail");
-            System.out.println("10. Sorting for carts");
+            System.out.println("10. View cart in detail");
+            System.out.println("11. Sorting for carts");
             System.out.println("0. Exit");
 
             int option = scanner.nextInt();
@@ -73,10 +73,20 @@ public class Main {
                     removeProduct(scanner);
                     break;
                 case 7:
-                    updateMess(scanner);
+                    updateOrViewMessage(scanner);
                     break;
                 case 8:
                     addCoupon(scanner);
+                    break;
+                case 9:
+                    removeCoupon();
+                case 10:
+                    viewCartDetails();
+                case 11:
+                    sortingCart();
+
+                default:
+                    System.err.println("Unknown command");
                     break;
             }
         }
@@ -197,13 +207,22 @@ public class Main {
     }
 
     public static void viewProduct(Scanner scanner) {
-        System.out.println("Enter a keyword to search for products:");
+        System.out.println("Enter product name:");
         String name = scanner.nextLine();
         HashMap<String, Product> allProduct = Product.getAllProduct();
-        if (allProduct.isEmpty()) {
-            System.err.println("No product available.");
+        if (!allProduct.containsKey(name)) {
+            System.err.println("No product name " + name);
             return;
-
+        }
+        Product p = allProduct.get(name);
+        System.out.println("Product name: " + name);
+        System.out.println("Product type: " + p.getType());
+        System.out.println("Description: " + p.getDescription());
+        System.out.println("Price: " + p.getPrice());
+        System.out.println("Tax type: " + p.getTaxType().name());
+        System.out.println("Can be gift: " + p.canBeGift());
+        if (p instanceof PhysicalProduct) {
+            System.out.println("Weight: " + ((PhysicalProduct) p).getWeight());
         }
     }
 
@@ -236,47 +255,107 @@ public class Main {
         int quantity = scanner.nextInt();
         cart.removeItem(name, quantity);
     }
-    
-    public static void updateMess(Scanner scanner) {
+
+    public static void updateOrViewMessage(Scanner scanner) {
         System.out.println("Enter the name of the gift item:");
-        String itemName = scanner.nextLine();
-    
-        boolean itemFound = false;
-        try {
-            File cartFile = new File("carts.txt");
-            Scanner fileScanner = new Scanner(cartFile);
-    
-            StringBuilder fileContent = new StringBuilder();
-    
-            while (fileScanner.hasNextLine()) {
-                String line = fileScanner.nextLine();
-                String[] parts = line.split(",", 3);
-    
-                if (parts[0].equals(itemName)) {
-                    itemFound = true;
-                    System.out.println("Enter the new message for " + itemName + ":");
+        String name = scanner.nextLine();
+        ShoppingCart curCart = ShoppingCart.getAllCart().get(ShoppingCart.getAllCart().size() - 1);
+        if (curCart.getCart().containsKey(name)) {
+            ProductItem p = curCart.getCart().get(name);
+            if (p instanceof GiftItem) {
+                System.out.println("Current message: " + ((GiftItem) p).getMessage());
+                System.out.println("Do you want to update message? (Y/N)");
+                String option = scanner.nextLine();
+                if (option.equalsIgnoreCase("y")) {
+                    System.out.println("Enter new message: ");
                     String newMessage = scanner.nextLine();
-                    parts[2] = newMessage;
-                    line = String.join(",", parts);
+                    ((GiftItem) p).setMessage(newMessage);
+                    System.out.println("Message set.");
                 }
-    
-                fileContent.append(line + "\n");
-            }
-    
-            if (!itemFound) {
-                System.out.println("Gift item not found.");
             } else {
-                FileWriter writer = new FileWriter("Cart.txt");
-                writer.write(fileContent.toString());
-                writer.close();
-                System.out.println("Gift item message updated successfully.");
+                System.out.println("Not gift item");
+                return;
             }
-        } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-    public void addCoupon(Coupon coupon){
-        
+        } else
+            System.out.println("No product item name " + name);
     }
 
+    public static void addCoupon(Scanner scanner) {
+        System.out.println("Enter coupon name: ");
+        String name = scanner.nextLine();
+        Coupon coupon = null;
+        for (Coupon c : Coupon.getAllCoupons()) {
+            if (c.getStringValue().equals(name)) {
+                coupon = c;
+                break;
+            }
+        }
+        if (coupon == null) {
+            System.out.println("No coupon name " + name);
+            return;
+        }
+        ShoppingCart curCart = ShoppingCart.getAllCart().get(ShoppingCart.getAllCart().size() - 1);
+        curCart.addCoupon(coupon);
+    }
+
+    public static void removeCoupon() {
+        ShoppingCart curCart = ShoppingCart.getAllCart().get(ShoppingCart.getAllCart().size() - 1);
+        curCart.removeCoupon();
+    }
+
+    public static void viewCartDetails(Scanner scanner) {
+        ShoppingCart curCart = ShoppingCart.getAllCart().get(ShoppingCart.getAllCart().size() - 1);
+        System.out.println("Current cart ID: " + curCart.getCartOrder());
+        System.out.println("Enter cart ID you want to view: ");
+        int id = scanner.nextInt() - 1;
+        if (id < 0 || id >= ShoppingCart.getAllCart().size()) {
+            System.out.println("No cart exist");
+            return;
+        }
+        ShoppingCart cart = ShoppingCart.getAllCart().get(id);
+        System.out.println("Product Items: ");
+        String weight;
+        for(ProductItem p : cart.getCart().values()){
+            weight = "";
+            if (p.getProduct() instanceof PhysicalProduct){
+                weight = String.valueOf( ((PhysicalProduct) p.getProduct()).getWeight());
+            }
+            System.out.println(p.getProduct().getName() + " | " + p.getQuantity() + " | " + p.getProduct().getPrice() + " | " + p.getProduct().getTaxType().name() + " | " + weight );
+        }
+
+        System.out.println("Coupon using: " + cart.getCoupon().getStringValue());
+        System.out.println("Total price: "+cart.cartAmount());
+        System.out.println("Total weight: " +cart.getTotalWeight());
+    }
+
+    public static void sortingCart() {
+        ArrayList<ShoppingCart> allCart = ShoppingCart.getAllCart();
+        Collections.sort(allCart, new ShoppingCartWeightComparator());
+        String header = String.format("%-3s| %-7s | %-10s | %-8s\n", "ID","Coupon", "Final Price",
+                "Weight");
+        System.out.println(header);
+
+        for (ShoppingCart cart : allCart) {
+            String cartDetails = String.format("%-3d | %7s | %-10.2f | $%7.2f",
+                    cart.getCartOrder(),
+                    cart.getCoupon().getStringValue(),
+                    cart.cartAmount(),
+                    cart.getTotalWeight());
+            System.out.println(cartDetails);
+        }
+
+    }
+
+}
+
+class ShoppingCartWeightComparator implements Comparator<ShoppingCart> {
+    public int compare(ShoppingCart cart1, ShoppingCart cart2) {
+        if (cart1.getTotalWeight() < cart2.getTotalWeight()) {
+            return -1;
+        } else if (cart1.getTotalWeight() > cart2.getTotalWeight()) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }

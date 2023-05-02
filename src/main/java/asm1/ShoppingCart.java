@@ -157,8 +157,3 @@ public class ShoppingCart {
     }
     
 }
- class ShoppingCartWeightComparator implements Comparator<ShoppingCart> {
-    public int compare(ShoppingCart cart1, ShoppingCart cart2) {
-        return cart1.getTotalWeight() > cart2.getTotalWeight();
-    }
-}

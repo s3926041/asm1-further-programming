@@ -81,7 +81,7 @@ public class Main {
                 case 9:
                     removeCoupon();
                 case 10:
-                    viewCartDetails();
+                    viewCartDetails( scanner);
                 case 11:
                     sortingCart();
 

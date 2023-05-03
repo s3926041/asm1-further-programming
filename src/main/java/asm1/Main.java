@@ -81,10 +81,11 @@ public class Main {
                 case 9:
                     removeCoupon();
                 case 10:
-                    viewCartDetails( scanner);
+                    viewCartDetails(scanner);
                 case 11:
                     sortingCart();
-
+                case 0:
+                    System.exit(0);
                 default:
                     System.err.println("Unknown command");
                     break;
@@ -103,17 +104,14 @@ public class Main {
 
         System.out.println("Enter product description:");
         String description = scanner.nextLine();
-        scanner.nextLine();
 
         System.out.println("Enter quantity available:");
         int quantityAvailable = scanner.nextInt();
-        scanner.nextLine();
 
         System.out.println("Enter price:");
         double price = scanner.nextDouble();
-        scanner.nextLine();
 
-        System.out.println("Choose taxType\n1. TAX_FREE\n2. NORMAL_TAX 3.LUXURY_TAX");
+        System.out.println("Choose taxType\n1. TAX_FREE\n2. NORMAL_TAX\n3.LUXURY_TAX");
         int option = scanner.nextInt();
         String taxString = "";
         switch (option) {
@@ -134,14 +132,16 @@ public class Main {
         System.out.println("Is this product can be used as GIFT? (Y/N)");
         boolean canBeGift = false;
         String answer = scanner.nextLine();
+
         if (answer.equalsIgnoreCase("y")) {
             canBeGift = true;
         }
+        scanner.nextLine();
         System.out.println("Is this a physical product? (Y/N)");
-        answer = scanner.nextLine();
+        String answer2 = scanner.nextLine();
 
         Product product;
-        if (answer.equalsIgnoreCase("y")) {
+        if (answer2.equalsIgnoreCase("y")) {
             System.out.println("Enter weight:");
             double weight = scanner.nextDouble();
             product = new PhysicalProduct(name, description, quantityAvailable, price, weight,
@@ -315,23 +315,24 @@ public class Main {
         ShoppingCart cart = ShoppingCart.getAllCart().get(id);
         System.out.println("Product Items: ");
         String weight;
-        for(ProductItem p : cart.getCart().values()){
+        for (ProductItem p : cart.getCart().values()) {
             weight = "";
-            if (p.getProduct() instanceof PhysicalProduct){
-                weight = String.valueOf( ((PhysicalProduct) p.getProduct()).getWeight());
+            if (p.getProduct() instanceof PhysicalProduct) {
+                weight = String.valueOf(((PhysicalProduct) p.getProduct()).getWeight());
             }
-            System.out.println(p.getProduct().getName() + " | " + p.getQuantity() + " | " + p.getProduct().getPrice() + " | " + p.getProduct().getTaxType().name() + " | " + weight );
+            System.out.println(p.getProduct().getName() + " | " + p.getQuantity() + " | " + p.getProduct().getPrice()
+                    + " | " + p.getProduct().getTaxType().name() + " | " + weight);
         }
 
         System.out.println("Coupon using: " + cart.getCoupon().getStringValue());
-        System.out.println("Total price: "+cart.cartAmount());
-        System.out.println("Total weight: " +cart.getTotalWeight());
+        System.out.println("Total price: " + cart.cartAmount());
+        System.out.println("Total weight: " + cart.getTotalWeight());
     }
 
     public static void sortingCart() {
         ArrayList<ShoppingCart> allCart = ShoppingCart.getAllCart();
         Collections.sort(allCart, new ShoppingCartWeightComparator());
-        String header = String.format("%-3s| %-7s | %-10s | %-8s\n", "ID","Coupon", "Final Price",
+        String header = String.format("%-3s| %-7s | %-10s | %-8s\n", "ID", "Coupon", "Final Price",
                 "Weight");
         System.out.println(header);
 

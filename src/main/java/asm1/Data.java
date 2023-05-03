@@ -52,16 +52,25 @@ public class Data {
 
         try (Stream<String> lines = Files.lines(Paths.get("carts.txt"))) {
             int ite = -1;
+            boolean modifiable = false;
             for (String line : (Iterable<String>) lines::iterator) {
                 String[] fields = line.split(",");
                 if (fields[0].contains("CART")) {
+                    if(ite!=-1){
+                        ShoppingCart curCart = ShoppingCart.getAllCart().get(ite);
+                        curCart.setModifiable(modifiable);
+                    }
+       
                     ShoppingCart cart = new ShoppingCart();
+                    modifiable = false;
+                    if(fields[1].trim().equals("MODIFIABLE")){
+                        modifiable = true;
+                    }
                     ite++;
                 } else {
                     ShoppingCart curCart = ShoppingCart.getAllCart().get(ite);
                     curCart.addItem(fields[0].trim(), Integer.parseInt(fields[1].trim()));
-                    // System.out.println(curCart.getCart().get(fields[0]).getProduct().getName());
-                    // System.out.println(fields[0]);
+
                     if (fields[2].equals("GIFT")) {
                         ProductItem pItem = curCart.getCart().get(fields[0].trim());
                         if(pItem instanceof GiftItem)

@@ -1,33 +1,49 @@
 Product Type, Name, Description, Quantity, Price, Taxation, isGift, Weight(Physical Product)
-physicalproduct, Running shorts, A pair of comfortable and breathable running shorts, 40, 24.99, LUXURY_TAX, NOTGIFT, 0.2,
-physicalproduct, Water bottle, A durable and eco-friendly water bottle, 80, 19.99, NORMAL_TAX, NOTGIFT, 0.4,
-digitalproduct, Netflix subscription, A 6-month subscription to Netflix, 10, 49.99, NORMAL_TAX, NOTGIFT,
-digitalproduct, Online music lesson, A 1-hour online lesson with a professional musician, 1, 99.99, TAX_FREE, NOTGIFT,
-physicalproduct, Blue Jeans, A pair of durable and fashionable jeans, 20, 59.99, LUXURY_TAX, NOTGIFT, 0.5,
-digitalproduct, Spotify gift card, A $50 gift card for Spotify premium, 10, 50.0, TAX_FREE, GIFT,
-digitalproduct, Online course, A 6-week course in digital marketing, 10, 299.99, LUXURY_TAX, NOTGIFT,
-physicalproduct, Headphones, A premium set of noise-cancelling headphones, 2, 149.99, NORMAL_TAX, NOTGIFT, 0.3,
-digitalproduct, Ebook, A bestselling novel in digital format, 10, 9.99, TAX_FREE, NOTGIFT,
-physicalproduct, Running shoes, A pair of lightweight and comfortable running shoes, 10, 89.99, NORMAL_TAX, NOTGIFT, 0.6,
-physicalproduct, Yoga mat, A high-quality yoga mat for home or studio use, 30, 29.99, TAX_FREE, NOTGIFT, 1.0,
-physicalproduct, Red T-shirt, A comfortable and stylish t-shirt, 50, 19.99, TAX_FREE, GIFT, 0.3,
-physicalproduct, Phone case, A durable and stylish case for your phone, 100, 12.99, TAX_FREE, GIFT, 0.4,
-digitalproduct, Software license, A 1-year license for professional software, 100, 499.99, NORMAL_TAX, GIFT,
-physicalproduct, Smartwatch, A high-tech and stylish smartwatch, 300, 199.99, LUXURY_TAX, NOTGIFT, 0.2,
+physicalproduct, Running shorts, A pair of comfortable and breathable running shorts, 40, 24.99, LUXURY_TAX, NOTGIFT, 0.2
+physicalproduct, Water bottle, A durable and eco-friendly water bottle, 80, 19.99, NORMAL_TAX, NOTGIFT, 0.4
+digitalproduct, Netflix subscription, A 6-month subscription to Netflix, 10, 49.99, NORMAL_TAX, NOTGIFT
+digitalproduct, Online music lesson, A 1-hour online lesson with a professional musician, 1, 99.99, TAX_FREE, NOTGIFT
+physicalproduct, Blue Jeans, A pair of durable and fashionable jeans, 20, 59.99, LUXURY_TAX, NOTGIFT, 0.5
+digitalproduct, Spotify gift card, A $50 gift card for Spotify premium, 10, 50.0, TAX_FREE, GIFT
+digitalproduct, Online course, A 6-week course in digital marketing, 10, 299.99, LUXURY_TAX, NOTGIFT
+physicalproduct, Headphones, A premium set of noise-cancelling headphones, 2, 149.99, NORMAL_TAX, NOTGIFT, 0.3
+digitalproduct, Ebook, A bestselling novel in digital format, 10, 9.99, TAX_FREE, NOTGIFT
+physicalproduct, Running shoes, A pair of lightweight and comfortable running shoes, 10, 89.99, NORMAL_TAX, NOTGIFT, 0.6
+physicalproduct, Yoga mat, A high-quality yoga mat for home or studio use, 30, 29.99, TAX_FREE, NOTGIFT, 1.0
+physicalproduct, Red T-shirt, A comfortable and stylish t-shirt, 50, 19.99, TAX_FREE, GIFT, 0.3
+physicalproduct, Phone case, A durable and stylish case for your phone, 100, 12.99, TAX_FREE, GIFT, 0.4
+digitalproduct, Software license, A 1-year license for professional software, 100, 499.99, NORMAL_TAX, GIFT
+physicalproduct, Smartwatch, A high-tech and stylish smartwatch, 300, 199.99, LUXURY_TAX, NOTGIFT, 0.2
+physicalproduct, Hoodie, A warm and comfortable hoodie, 50, 49.99, NORMAL_TAX, NOTGIFT, 0.8
+digitalproduct, Language course, A 12-week course in French language, 5, 199.99, NORMAL_TAX, NOTGIFT
+physicalproduct, Backpack, A spacious and durable backpack, 25, 79.99, LUXURY_TAX, NOTGIFT, 1.2
+physicalproduct, Sunglasses, A stylish and UV-resistant pair of sunglasses, 30, 39.99, NORMAL_TAX, NOTGIFT, 0.1
+digitalproduct, Online coaching session, A 1-hour online coaching session with a fitness expert, 2, 149.99, TAX_FREE, NOTGIFT
+physicalproduct, Winter jacket, A warm and waterproof winter jacket, 15, 129.99, LUXURY_TAX, NOTGIFT, 1.5
+physicalproduct, Resistance bands, A set of high-quality resistance bands for strength training, 20, 34.99, TAX_FREE, NOTGIFT, 0.2,
+physicalproduct, Backpack, A spacious and durable backpack for outdoor activities, 15, 79.99, NORMAL_TAX, NOTGIFT, 0.8,
+physicalproduct, Dumbbell set, A set of adjustable dumbbells for home workouts, 5, 299.99, LUXURY_TAX, NOTGIFT, 5.0,
+digitalproduct, Movie rental, A 48-hour rental for a new movie release, 20, 4.99, NORMAL_TAX, NOTGIFT,
+physicalproduct, Sneakers, A pair of stylish and comfortable sneakers, 30, 69.99, NORMAL_TAX, NOTGIFT, 0.5,
+digitalproduct, Online cooking class, A 1-hour virtual cooking class with a professional chef, 5, 79.99, NORMAL_TAX, NOTGIFT,
+physicalproduct, Yoga block, A lightweight and durable yoga block, 50, 14.99, TAX_FREE, NOTGIFT, 0.3,
+physicalproduct, Portable blender, A compact and powerful blender for making smoothies on the go, 25, 49.99, NORMAL_TAX, NOTGIFT, 0.7,
+digitalproduct, Mobile game, A popular mobile game with in-app purchases, 100, 2.99, NORMAL_TAX, NOTGIFT,
+
 
 Coupon Type, Tied Product , String Value, Discount(Percent/Price)
-percentcoupon, Running shorts, "SPORTS15", 15
-pricecoupon, Water bottle, "HYDRATE5", 5.0
-percentcoupon, Netflix subscription, "NETFLIX10", 10
-pricecoupon, Online music lesson, "MUSIC20", 20.0
-percentcoupon, Blue Jeans, "JEANS20", 20
-pricecoupon, Spotify gift card, "SPOTIFY10", 10.0
-percentcoupon, Online course, "LEARN30", 30
+percentcoupon, Running shorts, SPORTS15, 15
+pricecoupon, Water bottle, HYDRATE5, 5.0
+percentcoupon, Netflix subscription, NETFLIX10, 10
+pricecoupon, Online music lesson, MUSIC20, 20.0
+percentcoupon, Blue Jeans, JEANS20, 20
+pricecoupon, Spotify gift card, SPOTIFY10, 10.0
+percentcoupon, Online course, LEARN30, 30
 pricecoupon, Headphones, "AUDIO25", 25.0
-percentcoupon, Ebook, "READ15", 15
-pricecoupon, Running shoes, "RUN35", 35.0
-percentcoupon, Yoga mat, "YOGA25", 25
-pricecoupon, Red T-shirt, "TSHIRT7", 7.0
-percentcoupon, Phone case, "PHONE5", 5
-pricecoupon, Software license, "CODE50", 50.0
-percentcoupon, Smartwatch, "WATCH15", 15
+percentcoupon, Ebook, READ15, 15
+pricecoupon, Running shoes, RUN35, 35.0
+percentcoupon, Yoga mat, YOGA25, 25
+pricecoupon, Red T-shirt, TSHIRT7, 7.0
+percentcoupon, Phone case, PHONE5, 5
+pricecoupon, Software license, CODE50, 50.0
+percentcoupon, Smartwatch, WATCH15, 15

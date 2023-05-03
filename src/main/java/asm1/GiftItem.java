@@ -1,7 +1,7 @@
 package asm1;
 
 public class GiftItem extends ProductItem{
-    private String message;
+    private String message = null;
     public GiftItem(Product p,int quantity ){
         super(p,quantity);
     }

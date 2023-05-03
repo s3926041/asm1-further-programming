@@ -4,15 +4,25 @@
 package asm1;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 
 public class ShoppingCart {
     private HashMap<String, ProductItem> cart;
     private Coupon coupon = null;
+    private boolean modifiable = true;
+
+    public void setModifiable(boolean modifiable) {
+        this.modifiable = modifiable;
+    }
+
+    public boolean modifiable() {
+        return modifiable;
+    }
+
     public Coupon getCoupon() {
         return coupon;
     }
+
     private static ArrayList<ShoppingCart> allCart = new ArrayList<>();
 
     public HashMap<String, ProductItem> getCart() {
@@ -42,16 +52,20 @@ public class ShoppingCart {
     }
 
     public boolean addItem(String productName, Integer quantity) {
+        if(!modifiable){
+            System.out.println("This cart can not be modify");
+            return false;
+        }
         // check existing product
         HashMap<String, Product> allProduct = Product.getAllProduct();
         if (!allProduct.containsKey(productName)) {
-            // System.out.println("sai");
+            System.out.println("No product name" + productName);
             return false;
         }
         Product product = allProduct.get(productName);
         // check quantity
         if (product.getQuantity() - quantity < 0) {
-            // System.out.println(false);
+            System.out.println("There are only " + product.getQuantity() + " items left");
             return false;
         }
         ProductItem productItem;
@@ -72,20 +86,26 @@ public class ShoppingCart {
         if (product instanceof PhysicalProduct) {
             this.totalWeight += ((PhysicalProduct) product).getWeight() * quantity;
         }
+        System.out.println("Product added");
         return true;
     }
 
     public boolean removeItem(String productName, Integer quantity) {
-        if (!cart.containsKey(productName))
+        if(!modifiable){
+            System.out.println("This cart can not be modify");
             return false;
-
-        if (quantity <= 0)
+        }
+        if (!cart.containsKey(productName)) {
+            System.out.println("No product name" + productName);
             return false;
+        }
 
         int newQuantity = this.cart.get(productName).getQuantity() - quantity;
 
-        if (newQuantity < 0)
+        if (newQuantity < 0 || quantity <= 0) {
+            System.out.println("Invalid number");
             return false;
+        }
 
         // Update product quantity of current cart
         if (newQuantity == 0) {
@@ -103,6 +123,7 @@ public class ShoppingCart {
         if (product instanceof PhysicalProduct) {
             this.totalWeight -= ((PhysicalProduct) product).getWeight() * quantity;
         }
+        System.out.println("Removed");
 
         return true;
     }
@@ -135,8 +156,11 @@ public class ShoppingCart {
     }
 
     public void addCoupon(Coupon coupon) {
+        if(!modifiable){
+            System.out.println("This cart can not be modify");
+            return;
+        }
         if (cart.containsKey(coupon.getTiedProduct().getName())) {
-
             this.coupon = coupon;
             System.out.println("Coupon added");
         } else
@@ -144,6 +168,10 @@ public class ShoppingCart {
     }
 
     public void removeCoupon() {
+        if(!modifiable){
+            System.out.println("This cart can not be modify");
+            return;
+        }
         if (coupon != null)
             System.out.println("Coupon removed");
         else
@@ -155,5 +183,5 @@ public class ShoppingCart {
     public double getTax() {
         return 0;
     }
-    
+
 }

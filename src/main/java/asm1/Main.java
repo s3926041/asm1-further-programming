@@ -1,10 +1,5 @@
 package asm1;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
 
 public class Main {
@@ -20,15 +15,6 @@ public class Main {
 
     public static void main(String[] args) {
         Data.read();
-        // for(ShoppingCart s: ShoppingCart.getAllCart()){
-        // for(String str : s.getCart().keySet()){
-        // System.out.println(s.getCart().get(str).getProduct() );
-        // System.out.println(s.getCart().get(str).getQuantity());
-        // }
-        // System.out.println("");
-        // }
-
-        // User Interaction coding here
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("Select an option from here:");
@@ -37,19 +23,24 @@ public class Main {
             System.out.println("2. Edit products");
             System.out.println("3. View products");
             System.out.println("-----------------------------------------");
-            System.out.println("4. Create cart");
-            System.out.println("5. Add items to cart");
-            System.out.println("6. Remove items from cart");
+            System.out.println("4. Create new cart");
+            System.out.println("5. Choose cart");
+            System.out.println("6. Add items to current cart");
+            System.out.println("7. Remove items from current cart");
             System.out.println("-----------------------------------------");
-            System.out.println("7. Update/View Message of Gift Items");
+            System.out.println("8. Update/View Message of Gift Items of the current cart");
             System.out.println("-----------------------------------------");
-            System.out.println("8. Apply coupon");
-            System.out.println("9. Remove coupon");
+            System.out.println("9. Apply coupon to the current cart");
+            System.out.println("10. Remove coupon from the current cart");
             System.out.println("-----------------------------------------");
-            System.out.println("10. View cart in detail");
-            System.out.println("11. Sorting for carts");
+            System.out.println("11. View current cart in detail");
+            System.out.println("12. Sorting for all carts");
+            System.out.println("-----------------------------------------");
+            System.out.println("13. Print receipt for current cart");
+            System.out.println("-----------------------------------------");
             System.out.println("0. Exit");
-
+            System.out.println("-----------------------------------------");
+            System.out.println("Enter option: ");
             int option = scanner.nextInt();
             scanner.nextLine();
 
@@ -67,29 +58,39 @@ public class Main {
                     createCart();
                     break;
                 case 5:
+                    chooseCart(scanner);
+                    break;
+                case 5 + 1:
                     addProduct(scanner);
                     break;
-                case 6:
+                case 6 + 1:
                     removeProduct(scanner);
                     break;
-                case 7:
+                case 7 + 1:
                     updateOrViewMessage(scanner);
                     break;
-                case 8:
+                case 8 + 1:
                     addCoupon(scanner);
                     break;
-                case 9:
+                case 9 + 1:
                     removeCoupon();
-                case 10:
+                    break;
+                case 10 + 1:
                     viewCartDetails(scanner);
-                case 11:
+                    break;
+                case 11 + 1:
                     sortingCart();
+                    break;
+                case 13:
+                    printReceipt();
+                    break;
                 case 0:
                     System.exit(0);
                 default:
                     System.err.println("Unknown command");
                     break;
             }
+            System.out.println();
         }
     }
 
@@ -157,15 +158,6 @@ public class Main {
 
     public static void editProduct(Scanner scanner) {
         HashMap<String, Product> allProduct = Product.getAllProduct();
-        if (allProduct.isEmpty()) {
-            System.err.println("No product available.");
-            return;
-        }
-        System.out.println("All product:");
-        for (String s : allProduct.keySet()) {
-            System.out.println("-" + s);
-        }
-        System.out.println("");
         System.out.println("Enter product name to edit:");
         String name = scanner.nextLine();
         if (allProduct.containsKey(name)) {
@@ -174,15 +166,10 @@ public class Main {
             System.out.println("2. Change quantity");
             System.out.println("3. Change price");
             int option = scanner.nextInt();
-            scanner.nextLine();
             switch (option) {
                 case 1:
                     System.out.println("Enter new description: ");
                     String newDescription = scanner.nextLine();
-                    if (newDescription.isEmpty()) {
-                        System.out.println("Invalid description");
-                        return;
-                    }
                     allProduct.get(name).setDescription(newDescription);
                     System.out.println("Description changed.");
                     break;
@@ -200,6 +187,7 @@ public class Main {
                     break;
                 default:
                     System.out.println("Invalid option.");
+                    break;
             }
             return;
         }
@@ -227,14 +215,31 @@ public class Main {
     }
 
     public static void createCart() {
-        Main.cart = new ShoppingCart();
-        System.out.println("Cart " + cart.getCartOrder() + " created!");
+        cart = new ShoppingCart();
+        System.out.println("Cart " + cart.getCartOrder() + " created and become new current cart!");
         setCart(cart);
     }
 
+    public static void chooseCart(Scanner scanner) {
+        System.out.println("Enter cart ID: (From 1 to " + ShoppingCart.getAllCart().size() + ")");
+        int id = scanner.nextInt();
+        if (id < 1 || id > ShoppingCart.getAllCart().size()) {
+            System.out.println("Invalid ID");
+        } else {
+            cart = ShoppingCart.getAllCart().get(id - 1);
+            System.out.println("The current cart is cart with ID " + id);
+        }
+
+    }
+
     public static void addProduct(Scanner scanner) {
+
         if (cart == null) {
-            System.out.println("Please create cart first!");
+            System.out.println("Please create a cart or choose a cart first!");
+            return;
+        }
+        if (!cart.modifiable()) {
+            System.out.println("This cart can not be modify");
             return;
         }
         System.out.println("Enter product name: ");
@@ -242,11 +247,17 @@ public class Main {
         System.out.println("Enter product's quantity: ");
         int quantity = scanner.nextInt();
         cart.addItem(name, quantity);
+
     }
 
     public static void removeProduct(Scanner scanner) {
+
         if (cart == null) {
-            System.out.println("Please create cart first!");
+            System.out.println("Please create a cart or choose a cart first!");
+            return;
+        }
+        if (!cart.modifiable()) {
+            System.out.println("This cart can not be modify");
             return;
         }
         System.out.println("Enter product name: ");
@@ -257,13 +268,43 @@ public class Main {
     }
 
     public static void updateOrViewMessage(Scanner scanner) {
+        if (cart == null) {
+            System.out.println("Please create a cart or choose a cart first!");
+            return;
+        }
+        if (!cart.modifiable()) {
+            System.out.println("This cart can not be modify");
+            return;
+        }
+        boolean check = false;
+        for (ProductItem p : cart.getCart().values()) {
+            if (p instanceof GiftItem) {
+                check = true;
+                break;
+            }
+
+        }
+        if (!check) {
+            System.out.println("There are no gift item in this cart");
+            return;
+        }
+        System.out.println("GIFT items name:");
+        for (ProductItem p : cart.getCart().values()) {
+            if (p instanceof GiftItem) {
+                System.out.println(p.getProduct().getName());
+            }
+        }
+
         System.out.println("Enter the name of the gift item:");
         String name = scanner.nextLine();
-        ShoppingCart curCart = ShoppingCart.getAllCart().get(ShoppingCart.getAllCart().size() - 1);
-        if (curCart.getCart().containsKey(name)) {
-            ProductItem p = curCart.getCart().get(name);
+        if (cart.getCart().containsKey(name)) {
+            ProductItem p = cart.getCart().get(name);
             if (p instanceof GiftItem) {
-                System.out.println("Current message: " + ((GiftItem) p).getMessage());
+                if (((GiftItem) p).getMessage() != null)
+                    System.out.println("Current message: " + ((GiftItem) p).getMessage());
+                else
+                    System.out.println("This item not have any gift message yet");
+
                 System.out.println("Do you want to update message? (Y/N)");
                 String option = scanner.nextLine();
                 if (option.equalsIgnoreCase("y")) {
@@ -281,72 +322,162 @@ public class Main {
     }
 
     public static void addCoupon(Scanner scanner) {
-        System.out.println("Enter coupon name: ");
-        String name = scanner.nextLine();
-        Coupon coupon = null;
-        for (Coupon c : Coupon.getAllCoupons()) {
-            if (c.getStringValue().equals(name)) {
-                coupon = c;
-                break;
-            }
-        }
-        if (coupon == null) {
-            System.out.println("No coupon name " + name);
+
+        if (cart == null) {
+            System.out.println("Please create a cart or choose a cart first!");
             return;
         }
-        ShoppingCart curCart = ShoppingCart.getAllCart().get(ShoppingCart.getAllCart().size() - 1);
-        curCart.addCoupon(coupon);
+        if (!cart.modifiable()) {
+            System.out.println("This cart can not be modify");
+            return;
+        }
+        System.out.println("Enter product item in the current cart to add coupon: ");
+        String name = scanner.nextLine();
+        if (!cart.getCart().containsKey(name)) {
+            System.out.println("No product name " + name);
+            return;
+        }
+        Product p = Product.getAllProduct().get(name);
+        ArrayList<Coupon> coupons = new ArrayList<>();
+        for (Coupon c : Coupon.getAllCoupons()) {
+            if (c.getTiedProduct().equals(p)) {
+                coupons.add(c);
+            }
+        }
+        if (coupons.size() == 0)
+            System.out.println("No coupon available for this product");
+        else {
+            System.out.println("Available coupon:");
+            int i = 1;
+            for (Coupon c : coupons) {
+                System.out.println(i + ". " + c.getStringValue());
+                i++;
+            }
+            System.out.println("Please choose coupon to apply (Press 0 to cancel )");
+            int option = scanner.nextInt();
+            if (option == 0) {
+                return;
+            }
+            if (option < 1 || option > coupons.size()) {
+                System.out.println("Invalid option");
+                return;
+            }
+            cart.addCoupon(coupons.get(option - 1));
+        }
+
     }
 
     public static void removeCoupon() {
-        ShoppingCart curCart = ShoppingCart.getAllCart().get(ShoppingCart.getAllCart().size() - 1);
-        curCart.removeCoupon();
+
+        if (cart == null) {
+            System.out.println("Please create a cart or choose a cart first!");
+            return;
+        }
+        if (!cart.modifiable()) {
+            System.out.println("This cart can not be modify");
+            return;
+        }
+        cart.removeCoupon();
     }
 
     public static void viewCartDetails(Scanner scanner) {
-        System.out.println(ShoppingCart.getAllCart().size());
-        ShoppingCart curCart = ShoppingCart.getAllCart().get(ShoppingCart.getAllCart().size() - 1);
-        String s = Main.cart == null ? "Newest" : "Current";
-        System.out.println(s+" cart ID: " + curCart.getCartOrder());
-        System.out.println("Enter cart ID you want to view: ");
-        int id = scanner.nextInt() - 1;
-        if (id < 0 || id >= ShoppingCart.getAllCart().size()) {
-            System.out.println("No cart exist");
+        if (cart == null) {
+            System.out.println("Please create a cart or choose a cart first!");
             return;
         }
-        ShoppingCart cart = ShoppingCart.getAllCart().get(id);
-        System.out.println("Product Items: ");
-        String weight;
-        for (ProductItem p : cart.getCart().values()) {
-            weight = "";
-            if (p.getProduct() instanceof PhysicalProduct) {
-                weight = String.valueOf(((PhysicalProduct) p.getProduct()).getWeight());
-            }
-            System.out.println(p.getProduct().getName() + " | " + p.getQuantity() + " | " + p.getProduct().getPrice()
-                    + " | " + p.getProduct().getTaxType().name() + " | " + weight);
-        }
 
-        System.out.println("Coupon using: " + cart.getCoupon().getStringValue());
-        System.out.println("Total price: " + cart.cartAmount());
-        System.out.println("Total weight: " + cart.getTotalWeight());
+        String header = String.format("%-20s | %4s | %10s ", "Product name",
+                "Quantity",
+                "Unit Price");
+        System.out.println(header);
+
+        for (ProductItem p : cart.getCart().values()) {
+
+            System.out.printf("%-20s | %8d | %10.2f\n",
+                    p.getProduct().getName(),
+                    p.getQuantity(), p.getProduct().getPrice(), p.getProduct().getTaxType().name(),
+                    p.getProduct().getTaxType().getRate() * p.getProduct().getPrice());
+
+        }
+        System.out.println();
+        if (cart.getCoupon() != null)
+            System.out.println("Coupon using: " + cart.getCoupon().getStringValue());
     }
 
     public static void sortingCart() {
         ArrayList<ShoppingCart> allCart = ShoppingCart.getAllCart();
         Collections.sort(allCart, new ShoppingCartWeightComparator());
-        String header = String.format("%-3s| %-7s | %-10s | %-8s\n", "ID", "Coupon", "Final Price",
-                "Weight");
+        String header = String.format("%-5s | %12s | %9s | %s", "ID", "Final Price",
+                "Weight", "Coupon");
         System.out.println(header);
 
         for (ShoppingCart cart : allCart) {
-            String cartDetails = String.format("%-3d | %7s | %-10.2f | $%7.2f",
+            String coupon = "";
+            if (cart.getCoupon() != null) {
+                coupon = cart.getCoupon().getStringValue();
+            }
+            String cartDetails = String.format("%-5d | $%11.2f | %9.2f | %s",
                     cart.getCartOrder(),
-                    cart.getCoupon().getStringValue(),
                     cart.cartAmount(),
-                    cart.getTotalWeight());
+                    cart.getTotalWeight(), coupon);
+
             System.out.println(cartDetails);
         }
+    }
 
+    public static void printReceipt() {
+        if (cart == null) {
+            System.out.println("Please create a cart or choose a cart first!");
+            return;
+        }
+        System.out.println("RECEIPT for cart ID " + (cart.getCartOrder() + 1));
+        String header = String.format("%-20s | %4s | %10s | %23s | %15s | %15s | %15s | %15s | %15s", "Product name",
+                "Quantity",
+                "Unit Price", "Unit Tax", "Total Price", "Total Tax", "Discount", "Final Price",
+                "Weight");
+        System.out.println(header);
+        double discount = 0, rememberDiscount = 0, tax = 0;
+        for (ProductItem p : cart.getCart().values()) {
+            double weight = 0;
+
+            if (p.getProduct() instanceof PhysicalProduct) {
+                weight = ((PhysicalProduct) p.getProduct()).getWeight();
+            }
+            discount = 0;
+            if (cart.getCoupon() != null)
+                if (cart.getCoupon().getTiedProduct().equals(p.getProduct())) {
+                    discount = cart.getCoupon().discount();
+                    rememberDiscount = discount * p.getQuantity();
+                }
+
+            System.out.printf("%-20s | %8d | %10.2f | %-10s - %10.2f | %15.2f | %15.2f | %15.2f | %15.2f | %15.2f\n",
+                    p.getProduct().getName(),
+                    p.getQuantity(), p.getProduct().getPrice(), p.getProduct().getTaxType().name(),
+                    p.getProduct().getTaxType().getRate() * p.getProduct().getPrice(),
+                    p.getProduct().getPrice() * p.getQuantity(),
+                    p.getQuantity() * p.getProduct().getTaxType().getRate() * p.getProduct().getPrice(),
+                    discount,
+                    p.getQuantity() * (1 + p.getProduct().getTaxType().getRate()) * p.getProduct().getPrice(),
+                    weight);
+            tax += p.getQuantity() * p.getProduct().getTaxType().getRate() * p.getProduct().getPrice();
+        }
+
+        System.out.println();
+        String str = "";
+        if (cart.getCoupon() != null)
+            str = "Coupon using: " + cart.getCoupon().getStringValue();
+
+        System.out.printf("Base price:  : %.2f\n",
+                cart.cartAmount() + rememberDiscount - tax - cart.getTotalWeight() * 0.1);
+        System.out.printf("Discount     : %.2f %s \n", rememberDiscount, str);
+        System.out.printf("Tax          : %.2f\n", tax);
+        System.out.printf("Shipping fee : %.2f\n", cart.getTotalWeight() * 0.1);
+        System.out.printf("Final price  : %.2f  (%.2f + %.2f + %.2f - %.2f)\n", cart.cartAmount(),
+                cart.cartAmount() + rememberDiscount - tax - cart.getTotalWeight() * 0.1, tax,
+                cart.getTotalWeight() * 0.1, rememberDiscount);
+        System.out.printf("Total weight : %.2f\n", cart.getTotalWeight());
+        System.out.println("Release Date : " + new Date());
+        cart.setModifiable(false);
     }
 
 }

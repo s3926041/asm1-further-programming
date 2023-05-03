@@ -1,20 +1,20 @@
-CART
+CART, MODIFIABLE
 Running shorts,4,NOTGIFT,
 Water bottle,8,NOTGIFT,
 Netflix subscription,1,NOTGIFT,
 Online music lesson,1,NOTGIFT,
 Blue Jeans,2,NOTGIFT,
-CART
+CART, MODIFIABLE
 Spotify gift card,1,GIFT, Enjoy your music
 Online course,1,NOTGIFT,
 Headphones,2,NOTGIFT,
-CART
+CART, MODIFIABLE
 Ebook,1,NOTGIFT,
 Running shoes,1,NOTGIFT,
 Yoga mat,3,NOTGIFT,
-CART
+CART, MODIFIABLE
 Running shorts,4,NOTGIFT,
 Water bottle,8,NOTGIFT,
-CART
+CART, MODIFIABLE
 Red T-shirt,5,GIFT, Happy BirthDay
 Phone case,10,GIFT, Happy New Year

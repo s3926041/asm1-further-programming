@@ -9,19 +9,22 @@ public abstract class Product {
     private double price;
     private TaxType taxType;
     private static HashMap<String, Product> allProduct = new HashMap<>();
-    protected static boolean canBeGift = false;
+    private  boolean canBeGift = false;
     public static void setAllProduct(HashMap<String, Product> allProduct) {
         Product.allProduct = allProduct;
     }
 
     public Product(String name, String description, int quantity, double price, TaxType taxType,boolean canBeGift) {
-        this.canBeGift = canBeGift;
-        this.taxType = taxType;
-        this.name = name;
-        this.description = description;
-        this.quantity = quantity;
-        this.price = price;
-        allProduct.put(name, this);
+        if(!allProduct.containsKey(name)){
+            this.canBeGift = canBeGift;
+            this.taxType = taxType;
+            this.name = name;
+            this.description = description;
+            this.quantity = quantity;
+            this.price = price;
+            allProduct.put(name, this);
+        }else
+        System.out.println("Product existed");
     }
 
     public String getName() {

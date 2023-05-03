@@ -19,7 +19,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        // Data.read();
+        Data.read();
         // for(ShoppingCart s: ShoppingCart.getAllCart()){
         // for(String str : s.getCart().keySet()){
         // System.out.println(s.getCart().get(str).getProduct() );
@@ -227,7 +227,7 @@ public class Main {
     }
 
     public static void createCart() {
-        ShoppingCart cart = new ShoppingCart();
+        Main.cart = new ShoppingCart();
         System.out.println("Cart " + cart.getCartOrder() + " created!");
         setCart(cart);
     }
@@ -304,8 +304,10 @@ public class Main {
     }
 
     public static void viewCartDetails(Scanner scanner) {
+        System.out.println(ShoppingCart.getAllCart().size());
         ShoppingCart curCart = ShoppingCart.getAllCart().get(ShoppingCart.getAllCart().size() - 1);
-        System.out.println("Current cart ID: " + curCart.getCartOrder());
+        String s = Main.cart == null ? "Newest" : "Current";
+        System.out.println(s+" cart ID: " + curCart.getCartOrder());
         System.out.println("Enter cart ID you want to view: ");
         int id = scanner.nextInt() - 1;
         if (id < 0 || id >= ShoppingCart.getAllCart().size()) {

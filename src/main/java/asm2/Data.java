@@ -1,11 +1,12 @@
+/**
+ * @author Group 15
+ */
+
 package asm2;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-// import java.util.ArrayList;
-// import java.util.HashMap;
-// import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Data {

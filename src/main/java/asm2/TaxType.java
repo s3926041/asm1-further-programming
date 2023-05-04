@@ -1,3 +1,6 @@
+/**
+ * @author Group 15
+ */
 package asm2;
 
 public enum TaxType {

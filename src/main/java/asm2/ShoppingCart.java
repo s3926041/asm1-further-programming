@@ -1,6 +1,7 @@
 /**
- * @author <Nguyen Thanh Hung - s3926041>
+ * @author Group 15
  */
+
 package asm2;
 
 import java.util.ArrayList;

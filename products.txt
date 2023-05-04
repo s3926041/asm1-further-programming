@@ -21,7 +21,7 @@ physicalproduct, Sunglasses, A stylish and UV-resistant pair of sunglasses, 30, 
 digitalproduct, Online coaching session, A 1-hour online coaching session with a fitness expert, 2, 149.99, TAX_FREE, NOTGIFT
 physicalproduct, Winter jacket, A warm and waterproof winter jacket, 15, 129.99, LUXURY_TAX, NOTGIFT, 1.5
 physicalproduct, Resistance bands, A set of high-quality resistance bands for strength training, 20, 34.99, TAX_FREE, NOTGIFT, 0.2,
-physicalproduct, Backpack, A spacious and durable backpack for outdoor activities, 15, 79.99, NORMAL_TAX, NOTGIFT, 0.8,
+physicalproduct, Backpack2, A spacious and durable backpack for outdoor activities, 15, 79.99, NORMAL_TAX, NOTGIFT, 0.8,
 physicalproduct, Dumbbell set, A set of adjustable dumbbells for home workouts, 5, 299.99, LUXURY_TAX, NOTGIFT, 5.0,
 digitalproduct, Movie rental, A 48-hour rental for a new movie release, 20, 4.99, NORMAL_TAX, NOTGIFT,
 physicalproduct, Sneakers, A pair of stylish and comfortable sneakers, 30, 69.99, NORMAL_TAX, NOTGIFT, 0.5,

@@ -1,4 +1,7 @@
-package asm2;
+/**
+ * @author Group 15
+ */
+ package asm2;
 
 
 public class DigitalProduct extends Product {

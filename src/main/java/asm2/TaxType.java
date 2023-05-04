@@ -1,4 +1,4 @@
-package asm1;
+package asm2;
 
 public enum TaxType {
     TAX_FREE(0.0),

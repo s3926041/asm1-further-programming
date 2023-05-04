@@ -1,4 +1,4 @@
-package asm1;
+package asm2;
 
 public class PhysicalProduct extends Product {
     private double weight;

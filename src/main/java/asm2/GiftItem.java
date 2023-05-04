@@ -1,4 +1,4 @@
-package asm1;
+package asm2;
 
 public class GiftItem extends ProductItem{
     private String message = null;

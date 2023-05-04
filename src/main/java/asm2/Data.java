@@ -1,4 +1,4 @@
-package asm1;
+package asm2;
 
 import java.io.IOException;
 import java.nio.file.Files;

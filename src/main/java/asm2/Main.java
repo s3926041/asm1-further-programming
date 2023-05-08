@@ -24,7 +24,7 @@ public class Main {
             System.out.println("-----------------------------------------");
             System.out.println("1. Create new products");
             System.out.println("2. Edit products");
-            System.out.println("3. View products");
+            System.out.println("3. View product");
             System.out.println("-----------------------------------------");
             System.out.println("4. Create new cart");
             System.out.println("5. Choose cart");
@@ -93,7 +93,8 @@ public class Main {
                     System.err.println("Unknown command");
                     break;
             }
-            System.out.println();
+            System.out.println("Press Enter to continue");
+            scanner.nextLine();
         }
     }
 
@@ -115,7 +116,7 @@ public class Main {
         System.out.println("Enter price:");
         double price = scanner.nextDouble();
 
-        System.out.println("Choose taxType\n1. TAX_FREE\n2. NORMAL_TAX\n3.LUXURY_TAX");
+        System.out.println("Choose taxType\n1. TAX_FREE\n2. NORMAL_TAX\n3. LUXURY_TAX");
         int option = scanner.nextInt();
         String taxString = "";
         switch (option) {
@@ -172,6 +173,7 @@ public class Main {
             System.out.println("2. Change quantity");
             System.out.println("3. Change price");
             int option = scanner.nextInt();
+            scanner.nextLine();
             switch (option) {
                 case 1:
                     System.out.println("Enter new description: ");
@@ -195,6 +197,7 @@ public class Main {
                     System.out.println("Invalid option.");
                     break;
             }
+            scanner.nextLine();
             return;
         }
         System.err.println("No product name " + name);
@@ -235,7 +238,7 @@ public class Main {
             cart = ShoppingCart.getAllCart().get(id - 1);
             System.out.println("The current cart is cart with ID " + id);
         }
-
+        scanner.nextLine();
     }
 
     public static void addProduct(Scanner scanner) {
@@ -253,7 +256,7 @@ public class Main {
         System.out.println("Enter product's quantity: ");
         int quantity = scanner.nextInt();
         cart.addItem(name, quantity);
-
+        scanner.nextLine();
     }
 
     public static void removeProduct(Scanner scanner) {
@@ -271,6 +274,7 @@ public class Main {
         System.out.println("Enter product's quantity: ");
         int quantity = scanner.nextInt();
         cart.removeItem(name, quantity);
+        scanner.nextLine();
     }
 
     public static void updateOrViewMessage(Scanner scanner) {
@@ -337,39 +341,35 @@ public class Main {
             System.out.println("This cart can not be modify");
             return;
         }
-        System.out.println("Enter product item in the current cart to add coupon: ");
-        String name = scanner.nextLine();
-        if (!cart.getCart().containsKey(name)) {
-            System.out.println("No product name " + name);
-            return;
-        }
-        Product p = Product.getAllProduct().get(name);
-        ArrayList<Coupon> coupons = new ArrayList<>();
-        for (Coupon c : Coupon.getAllCoupons()) {
-            if (c.getTiedProduct().equals(p)) {
-                coupons.add(c);
+        ArrayList<Coupon> coupons = Coupon.getAllCoupons();
+        HashMap<String,ProductItem> curCart = cart.getCart(); 
+        ArrayList<Coupon> ar = new ArrayList<>();
+        for (Coupon c : coupons) {
+          for(ProductItem pItem : curCart.values()){
+            if(pItem.getProduct().equals(c.getTiedProduct())){
+                ar.add(c);
+                break;
             }
+          }
         }
-        if (coupons.size() == 0)
-            System.out.println("No coupon available for this product");
+        if (ar.size() == 0)
+            System.out.println("No coupon available for this cart");
         else {
             System.out.println("Available coupon:");
             int i = 1;
-            for (Coupon c : coupons) {
-                System.out.println(i + ". " + c.getStringValue());
+            for (Coupon s : ar) {
+                System.out.println(i + ". " + s.getStringValue());
                 i++;
             }
-            System.out.println("Please choose coupon to apply (Press 0 to cancel )");
+            System.out.println("Please choose coupon by order to apply (From 1 to "+ ar.size() +" )");
             int option = scanner.nextInt();
-            if (option == 0) {
-                return;
-            }
-            if (option < 1 || option > coupons.size()) {
+            if (option < 1 || option > ar.size()) {
                 System.out.println("Invalid option");
-                return;
             }
-            cart.addCoupon(coupons.get(option - 1));
+            else
+            cart.addCoupon(ar.get(option - 1));
         }
+        scanner.nextLine();
 
     }
 
@@ -384,6 +384,7 @@ public class Main {
             return;
         }
         cart.removeCoupon();
+        
     }
 
     public static void viewCartDetails(Scanner scanner) {

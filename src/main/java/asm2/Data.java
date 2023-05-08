@@ -22,7 +22,7 @@ public class Data {
                     int quantity = Integer.parseInt(fields[3].trim());
                     double price = Double.parseDouble(fields[4].trim());
                     String taxType = fields[5].trim();
-                    boolean canBeGift = fields[6].equals("GIFT");
+                    boolean canBeGift = fields[6].trim().equals("GIFT");
                     Product newProduct;
                     if (fields[0].equals("physicalproduct")) {
                         double weight = Double.parseDouble(fields[7].trim());

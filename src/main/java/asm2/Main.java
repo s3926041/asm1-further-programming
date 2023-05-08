@@ -133,14 +133,17 @@ public class Main {
                 break;
 
         }
+        scanner.nextLine();
         System.out.println("Is this product can be used as GIFT? (Y/N)");
         boolean canBeGift = false;
         String answer = scanner.nextLine();
-
+        // System.out.println(answer);
         if (answer.equalsIgnoreCase("y")) {
+            // System.out.println("GIFT");
             canBeGift = true;
         }
-        scanner.nextLine();
+
+        // scanner.nextLine();
         System.out.println("Is this a physical product? (Y/N)");
         String answer2 = scanner.nextLine();
 

@@ -28,4 +28,6 @@ public abstract class Coupon {
         return tiedProduct;
     }
     public abstract double discount();
+    public abstract String getType();
+
 }

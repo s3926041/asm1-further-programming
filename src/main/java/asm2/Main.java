@@ -22,24 +22,27 @@ public class Main {
         while (true) {
             System.out.println("Select an option from here:");
             System.out.println("-----------------------------------------");
-            System.out.println("1. Create new products");
-            System.out.println("2. Edit products");
-            System.out.println("3. View product");
+            System.out.println("1. All product");
+            System.out.println("2. Create new products");
+            System.out.println("3. Edit products");
+            System.out.println("4. View product");
             System.out.println("-----------------------------------------");
-            System.out.println("4. Create new cart");
-            System.out.println("5. Choose cart");
-            System.out.println("6. Add items to current cart");
-            System.out.println("7. Remove items from current cart");
+            System.out.println("5. Create new cart");
+            System.out.println("6. Choose cart");
+            System.out.println("7. Add items to current cart");
+            System.out.println("8. Remove items from current cart");
             System.out.println("-----------------------------------------");
-            System.out.println("8. Update/View Message of Gift Items of the current cart");
+            System.out.println("9. Update/View Message of Gift Items of the current cart");
             System.out.println("-----------------------------------------");
-            System.out.println("9. Apply coupon to the current cart");
-            System.out.println("10. Remove coupon from the current cart");
+            System.out.println("10. All Coupon");
+            System.out.println("11. Create coupon");
+            System.out.println("12. Apply coupon to the current cart");
+            System.out.println("13. Remove coupon from the current cart");
             System.out.println("-----------------------------------------");
-            System.out.println("11. View current cart in detail");
-            System.out.println("12. Sorting for all carts");
+            System.out.println("14. View current cart in detail");
+            System.out.println("15. Sorting for all carts");
             System.out.println("-----------------------------------------");
-            System.out.println("13. Print receipt for current cart");
+            System.out.println("16. Print receipt for current cart");
             System.out.println("-----------------------------------------");
             System.out.println("0. Exit");
             System.out.println("-----------------------------------------");
@@ -49,42 +52,51 @@ public class Main {
 
             switch (option) {
                 case 1:
-                    createProduct(scanner);
+                    showProduct();
                     break;
                 case 2:
-                    editProduct(scanner);
+                    createProduct(scanner);
                     break;
                 case 3:
-                    viewProduct(scanner);
+                    editProduct(scanner);
                     break;
                 case 4:
-                    createCart();
+                    viewProduct(scanner);
                     break;
                 case 5:
+                    createCart();
+                    break;
+                case 6:
                     chooseCart(scanner);
                     break;
-                case 5 + 1:
+                case 7:
                     addProduct(scanner);
                     break;
-                case 6 + 1:
+                case 8:
                     removeProduct(scanner);
                     break;
-                case 7 + 1:
+                case 9:
                     updateOrViewMessage(scanner);
                     break;
-                case 8 + 1:
+                case 10:
+                    showCoupon();
+                    break;
+                case 11:
+                    createCoupon(scanner);
+                    break;
+                case 12:
                     addCoupon(scanner);
                     break;
-                case 9 + 1:
+                case 13:
                     removeCoupon();
                     break;
-                case 10 + 1:
+                case 14:
                     viewCartDetails(scanner);
                     break;
-                case 11 + 1:
+                case 15:
                     sortingCart();
                     break;
-                case 13:
+                case 16:
                     printReceipt();
                     break;
                 case 0:
@@ -96,6 +108,30 @@ public class Main {
             System.out.println("Press Enter to continue");
             scanner.nextLine();
         }
+    }
+
+    public static void showProduct() {
+        HashMap<String, Product> allProduct = Product.getAllProduct();
+        String header = String.format(
+                "%-25s | %s | %10s | %15s | %15s | %15s | %15s ",
+                "Product name",
+                "Quantity",
+                "Unit Price", "Tax Type", "Can be Gift", "Product Type", "Weight");
+        System.out.println(header);
+        for (Product p : allProduct.values()) {
+            String canbegift = "FALSE";
+            if (p.canBeGift())
+                canbegift = "TRUE";
+            String type = "Digital";
+            double weight = 0;
+            if (p instanceof PhysicalProduct) {
+                type = "Physical";
+                weight = ((PhysicalProduct) p).getWeight();
+            }
+            System.out.printf("%-25s | %8d | %10.2f | %15s | %15s | %15s | %15.2f\n", p.getName(), p.getQuantity(),
+                    p.getPrice(), p.getTaxType().name(), canbegift, type, weight);
+        }
+
     }
 
     public static void createProduct(Scanner scanner) {
@@ -331,6 +367,56 @@ public class Main {
             System.out.println("No product item name " + name);
     }
 
+    public static void showCoupon() {
+        String header = String.format("%-20s | %-25s | %12s | %15s  ",
+                "String value", "Tied Product", "Coupon Type", "Discount value");
+        System.out.println(header);
+        for (Coupon c : Coupon.getAllCoupons()) {
+
+            if (c instanceof PerCentCoupon) {
+                System.out.printf("%-20s | %-25s | %12s | %15d", c.getStringValue(), c.getTiedProduct().getName(),
+                        c.getType(), ((PerCentCoupon) c).getPercent());
+            } else
+                System.out.printf("%-20s | %-25s | %12s | %15.2f", c.getStringValue(), c.getTiedProduct().getName(),
+                        c.getType(), ((PriceCoupon) c).getPrice());
+            System.out.println();
+        }
+
+    }
+
+    public static void createCoupon(Scanner scanner) {
+        System.out.println("Enter product name you want to tied with");
+        String name = scanner.nextLine();
+        if (!Product.getAllProduct().containsKey(name)) {
+            System.out.println("No product name " + name);
+            return;
+        }
+        Product p = Product.getAllProduct().get(name);
+
+        System.out.println("Enter string value for this coupon");
+        String sValue = scanner.nextLine();
+
+        System.out.println("Is this percent coupon or price coupon (1/2)");
+        int option = scanner.nextInt();
+        Coupon c;
+        switch (option) {
+            case 1:
+                System.out.println("Enter discount amount:");
+                int amountI = scanner.nextInt();
+                c = new PerCentCoupon(p, sValue, amountI);
+                break;
+            case 2:
+                System.out.println("Enter discount amount:");
+                double amountD = scanner.nextDouble();
+                c = new PriceCoupon(p, sValue, amountD);
+                break;
+            default:
+                System.out.println("Invalid option");
+                break;
+        }
+        scanner.nextLine();
+    }
+
     public static void addCoupon(Scanner scanner) {
 
         if (cart == null) {
@@ -342,15 +428,15 @@ public class Main {
             return;
         }
         ArrayList<Coupon> coupons = Coupon.getAllCoupons();
-        HashMap<String,ProductItem> curCart = cart.getCart(); 
+        HashMap<String, ProductItem> curCart = cart.getCart();
         ArrayList<Coupon> ar = new ArrayList<>();
         for (Coupon c : coupons) {
-          for(ProductItem pItem : curCart.values()){
-            if(pItem.getProduct().equals(c.getTiedProduct())){
-                ar.add(c);
-                break;
+            for (ProductItem pItem : curCart.values()) {
+                if (pItem.getProduct().equals(c.getTiedProduct())) {
+                    ar.add(c);
+                    break;
+                }
             }
-          }
         }
         if (ar.size() == 0)
             System.out.println("No coupon available for this cart");
@@ -361,13 +447,12 @@ public class Main {
                 System.out.println(i + ". " + s.getStringValue());
                 i++;
             }
-            System.out.println("Please choose coupon by order to apply (From 1 to "+ ar.size() +" )");
+            System.out.println("Please choose coupon by order to apply (From 1 to " + ar.size() + " )");
             int option = scanner.nextInt();
             if (option < 1 || option > ar.size()) {
                 System.out.println("Invalid option");
-            }
-            else
-            cart.addCoupon(ar.get(option - 1));
+            } else
+                cart.addCoupon(ar.get(option - 1));
         }
         scanner.nextLine();
 
@@ -384,7 +469,7 @@ public class Main {
             return;
         }
         cart.removeCoupon();
-        
+
     }
 
     public static void viewCartDetails(Scanner scanner) {
@@ -393,14 +478,14 @@ public class Main {
             return;
         }
 
-        String header = String.format("%-20s | %4s | %10s ", "Product name",
+        String header = String.format("%-25s | %4s | %10s ", "Product name",
                 "Quantity",
                 "Unit Price");
         System.out.println(header);
 
         for (ProductItem p : cart.getCart().values()) {
 
-            System.out.printf("%-20s | %8d | %10.2f\n",
+            System.out.printf("%-25s | %8d | %10.2f\n",
                     p.getProduct().getName(),
                     p.getQuantity(), p.getProduct().getPrice(), p.getProduct().getTaxType().name(),
                     p.getProduct().getTaxType().getRate() * p.getProduct().getPrice());
@@ -438,7 +523,7 @@ public class Main {
             return;
         }
         System.out.println("RECEIPT for cart ID " + (cart.getCartOrder() + 1));
-        String header = String.format("%-20s | %4s | %10s | %23s | %15s | %15s | %15s | %15s | %15s", "Product name",
+        String header = String.format("%-25s | %4s | %10s | %23s | %15s | %15s | %15s | %15s | %15s", "Product name",
                 "Quantity",
                 "Unit Price", "Unit Tax", "Total Price", "Total Tax", "Discount", "Final Price",
                 "Weight");
@@ -457,7 +542,7 @@ public class Main {
                     rememberDiscount = discount * p.getQuantity();
                 }
 
-            System.out.printf("%-20s | %8d | %10.2f | %-10s - %10.2f | %15.2f | %15.2f | %15.2f | %15.2f | %15.2f\n",
+            System.out.printf("%-25s | %8d | %10.2f | %-10s - %10.2f | %15.2f | %15.2f | %15.2f | %15.2f | %15.2f\n",
                     p.getProduct().getName(),
                     p.getQuantity(), p.getProduct().getPrice(), p.getProduct().getTaxType().name(),
                     p.getProduct().getTaxType().getRate() * p.getProduct().getPrice(),

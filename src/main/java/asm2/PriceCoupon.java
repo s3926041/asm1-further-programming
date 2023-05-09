@@ -14,6 +14,10 @@ public class PriceCoupon extends Coupon {
     }
     @Override
     public double discount(){
-        return super.getTiedProduct().getPrice() - this.price; 
+        return this.price ; 
+    }
+    @Override
+    public String getType(){
+        return "price";
     }
 }

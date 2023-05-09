@@ -16,4 +16,8 @@ public class PerCentCoupon extends Coupon {
     public double discount(){
         return super.getTiedProduct().getPrice() * this.percent/ 100; 
     }
+    @Override
+    public String getType(){
+        return "percent";
+    }
 }
